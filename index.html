@@ -7,6 +7,7 @@
     <style>
         body {
     width: 100%;
+    height: 100%;
     font-family: 'Roboto', Arial, sans-serif; /* Fuente más moderna */
     margin: 0;
     padding: 0;
@@ -82,8 +83,8 @@
 
     @media (max-width: 768px) {
         .search-container{
-            top: 0;
-            right: 50%;
+            top: 30px;
+            right: 10px;
         }
 }
 
@@ -101,7 +102,6 @@
             flex-direction: column;
             align-items: center;
             width: 80%;
-            max-width: 1000px;
             opacity: 0; /* Inicialmente oculto */
             animation: slideDown 1s ease-out forwards; /* Cambié el nombre de la animación */
         }
@@ -130,6 +130,20 @@ h1 {
     letter-spacing: 4px; /* Espaciado entre letras */
     line-height: 1.2; /* Espaciado entre líneas */
     position: relative; /* Posicionamiento relativo para efectos */
+}
+
+@media (max-width: 768px) {
+    .container {
+        display: inline-block;
+        /* margin-bottom: 20%; */
+        margin-top: 13%;
+        width: 142%; 
+        margin: 0 auto;
+    }
+    
+    h1{
+        margin-top: 80px;
+    }
 }
 
 /* contenedor que agrega patentes /////////////////////////////////////*/
@@ -242,14 +256,13 @@ button {
 
 /* boton que agrega patentes */ 
 
-#addInputBtn {
+.btn-success {
             position: fixed;
             bottom: 50%;
             right: 0;
             z-index: 2;
             width: 160px;
             height: 80px;
-            margin-top: 10px;
             background-color: #218838;
             padding: 12px 20px;  /* Aumenta el padding */
             font-size: 18px;  /* Mayor tamaño de texto */
@@ -286,7 +299,7 @@ button {
             }
         }
         /* Efecto hover */
-#addInputBtn:hover {
+.btn-success:hover {
     background-color: #3cc45c; /* Verde más oscuro */
     transform: scale(1.1);  /* Aumenta el tamaño */
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3); /* Sombra más intensa */
@@ -295,53 +308,17 @@ button {
 }
 
 /* Efecto active (cuando se hace clic) */
-#addInputBtn:active {
+.btn-success:active {
     background-color: #1e7e34; /* Verde aún más oscuro */
     transform: scale(0.98);  /* Reduce el tamaño */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Sombra más tenue */
 } 
 
-
-
-/* boton que elimina todo el proceso ///////////////////////////////////*/
-
-#clearAllBtn {
-    position: relative;
-    margin-right: 1200px;
+@media (max-width: 768px) {
+    .btn-success{
+        z-index: 99999;
+    }
 }
-
- /* Estilo básico para el modal */
- #confirmModal {
-            display: none; /* Ocultar por defecto */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 99999;
-        }
-        .modal-content {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            text-align: center;
-        }
-        .modal-buttons {
-            margin-top: 20px;
-        }
-        .modal-buttons button {
-            color: #000;
-            padding: 10px 20px;
-            margin: 5px;
-            cursor: pointer;
-        }
-
-
-
-
 
 
 
@@ -495,6 +472,24 @@ img#logo{
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra más tenue */
 }
 
+/* Estilo para una mejor visualización en dispositivos móviles */
+@media (max-width: 768px) {
+    .contenedor-fijo {
+    position: fixed; /* Cambié 'sticky' a 'fixed' para que quede fijo en la parte inferior */
+    bottom: 15px; /* Fija el contenedor en la parte inferior de la página */
+    left: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 92%;
+    max-width: 600px; /* Tamaño máximo para el contenedor */
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+    border-radius: 8px;
+    padding: 15px 15px 0px 15px;
+}
+
+
+}
+
 
 .logo-imprimir {
         position: fixed; /* Fija el logo en la parte inferior */
@@ -543,6 +538,74 @@ img#logo{
 
 }
 
+/* boton que elimina todo el proceso ///////////////////////////////////*/
+
+#clearAllBtn {
+    position: relative;
+    display: flex;
+    right: 0%;
+}
+
+@media (max-width: 768px) {
+
+    .container-eliminar-imprimir{
+    position: relative; /* Hace que los hijos puedan ser posicionados relativos a este contenedor */
+    display: flex;
+  width: 500px; /* Ancho del contenedor padre */
+  height: 640px; /* Alto del contenedor padre */
+  
+}
+    
+    #clearAllBtn {
+    position: absolute;
+    display: flex;
+    bottom: 130px; /* Alinearlos en la parte inferior */
+    left: 0; /* Coloca el primer hijo en la esquina inferior izquierda */
+    right: auto;
+}
+
+.logo-imprimir {
+        position: relative; /* Fija el logo en la parte inferior */
+        display: flex;
+        bottom: -320px; /* Espacio desde la parte inferior de la página (puedes ajustarlo) */
+        right: 20px; /* Espacio desde la parte derecha de la página (ajustar a tu gusto) */
+        width: 30mm; /* Ancho del logo (ajustar según tamaño del logo) */
+        height: auto; /* Mantener las proporciones del logo */
+        z-index: 1; /* Asegurar que el logo esté por encima de otros elementos */
+        margin-bottom: 100%;
+        }
+}
+
+ /* Estilo básico para el modal aparece despues de apretar el boton de eliminar*/
+ #confirmModal {
+            display: none; /* Ocultar por defecto */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .modal-buttons {
+            margin-top: 20px;
+        }
+        .modal-buttons button {
+            color: #000;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+
     </style>
 </head>
 <body>
@@ -580,8 +643,25 @@ img#logo{
 
 
 
+
     <!-- boton para eliminar lo de localstorage ////////////////////////// -->
-    <button id="clearAllBtn" class="btn btn-danger">Eliminar Todo</button>
+     <div class="container-eliminar-imprimir">
+         <button id="clearAllBtn" class="btn btn-danger">Eliminar Todo</button>
+
+         
+   <!-- botn para imprimir ////////////////////////////////////////////////////////////77 -->
+
+   <img 
+   onclick="window.print()"
+     src="impresora2.png" 
+     alt="Logo" 
+     class="logo-imprimir" 
+     id="imagen-logo"
+     onmouseover="cambiarImagen()" 
+     onmouseout="restaurarImagen()"
+   >
+
+     </div>
 
 <!-- Modal de confirmación -->
 <div id="confirmModal">
@@ -602,22 +682,12 @@ img#logo{
       <h3>Contador de Baños</h3>
       <div class="contenedor-interno">
           <span id="cantidadBaños">Cantidad: 0</span>
-          <span id="precioBaños">Precio Baño: $0</span>
+          <span id="precioBaños">total: $0</span>
       </div>
       <button id="addBañoBtn" class="btn btn-light">Agregar Baño</button>
     </div>
 
-        <!-- botn para imprimir ////////////////////////////////////////////////////////////77 -->
-
-        <img 
-        onclick="window.print()"
-          src="impresora2.png" 
-          alt="Logo" 
-          class="logo-imprimir" 
-          id="imagen-logo"
-          onmouseover="cambiarImagen()" 
-          onmouseout="restaurarImagen()"
-        >
+     
 
     <script>
         let totalEfectivo = 0; // Variable para mantener el total en efectivo
