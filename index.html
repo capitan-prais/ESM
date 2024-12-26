@@ -111,7 +111,9 @@ h1 {
 @media (max-width: 768px) {
     
     h1{
+        width: 100%;
         margin-top: 80px;
+        margin-left: 80px;
     }
 }
 
@@ -150,7 +152,12 @@ h1 {
             }
         }
 
-
+        @media (max-width: 768px) {
+    
+    .content{
+        width: 135%;
+    }
+}
 
 
 /* botones del contenedor que esta la info de las patentes //////////////////// */
@@ -600,10 +607,13 @@ img#logo{
 }
 
 
+
     </style>
 </head>
 <body>
 <!-- buscador -->
+
+<div class="contenedor-padre"></div>
     <div class="search-container">
         <input type="text" id="searchInput" placeholder="Buscar patente..." oninput="buscarPatente()">
     </div>
