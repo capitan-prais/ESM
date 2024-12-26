@@ -15,7 +15,7 @@
     flex-direction: column;
     align-items: center;
     height: 100vh; /* Hace que el body ocupe toda la altura de la pantalla */
-    background-color: #f3f4f6; /* Fondo suave */
+    background-color: #ffff; /* Fondo suave */
     overflow-x: hidden; /* Evita el desplazamiento horizontal */
     box-sizing: border-box; /* Asegura que el padding y el borde no afecten el tamaño total */
 }
@@ -92,31 +92,7 @@
 
 /* contenedor de los patentes agregados y totales ////////////////////////////////// */
 
-.container {
-            position: relative;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 80%;
-            opacity: 0; /* Inicialmente oculto */
-            animation: slideDown 1s ease-out forwards; /* Cambié el nombre de la animación */
-        }
 
-        /* Animación para hacer aparecer el contenedor desde arriba */
-@keyframes slideDown {
-    0% {
-        opacity: 0;
-        transform: translateY(-500px); /* Empieza fuera de la pantalla, arriba */
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0); /* Llega a su posición original */
-    }
-}
 
 h1 {
     font-family: 'Roboto', Arial, sans-serif; /* Fuente moderna */
@@ -124,7 +100,7 @@ h1 {
     font-weight: 700; /* Peso de fuente en negrita */
     text-align: center; /* Centrado del texto */
     color: #555; /* Color oscuro para un buen contraste */
-    margin: 0; /* Espaciado superior e inferior */
+    margin: 10px auto; /* Espaciado superior e inferior */
     padding: 0; /* Elimina padding innecesario */
     text-transform: uppercase; /* Transforma a mayúsculas */
     letter-spacing: 4px; /* Espaciado entre letras */
@@ -133,13 +109,6 @@ h1 {
 }
 
 @media (max-width: 768px) {
-    .container {
-        display: inline-block;
-        /* margin-bottom: 20%; */
-        margin-top: 13%;
-        width: 142%; 
-        margin: 0 auto;
-    }
     
     h1{
         margin-top: 80px;
@@ -327,7 +296,7 @@ button {
 
 img#logo{
     position: absolute;  /* Posicionamiento absoluto respecto al body */
-    margin: 5px 0px 0px 5px;
+    margin: 10px 0px 0px 10px;
     top: 0;              /* Alineado con la parte superior de la página */
     left: 0;             /* Alineado con la parte izquierda de la página */
     width: 300px;         /* Puedes ajustar el tamaño */
@@ -341,7 +310,7 @@ img#logo{
 
  img#logo2{
     position: absolute;  /* Posicionamiento absoluto respecto al body */
-    margin: 5px 0px 0px 5px;
+    margin: 10px 0px 0px 10px;
     top: 0;              /* Alineado con la parte superior de la página */
     left: 0;             /* Alineado con la parte izquierda de la página */
     width: 300px;         /* Puedes ajustar el tamaño */
@@ -605,6 +574,30 @@ img#logo{
             margin: 5px;
             cursor: pointer;
         }
+
+
+        /* Estilo para los inputs creados dinámicamente */
+.input-estilo {
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box; /* Para que el padding no afecte el tamaño total */
+    transition: border-color 0.3s ease;
+}
+
+/* Estilo cuando el input está enfocado */
+.input-estilo:focus {
+    border-color: #0066cc;
+    outline: none;
+}
+
+/* Si deseas darle un color de fondo o cambiar el estilo, puedes agregar más reglas */
+.input-estilo::placeholder {
+    color: #888;
+}
 
 
     </style>
@@ -878,12 +871,16 @@ img#logo{
             localStorage.setItem('precioBaños', JSON.stringify(precioBaños));
         }
 
-        document.getElementById('addInputBtn').addEventListener('click', function () {
+        document.getElementById('addInputBtn').addEventListener('click', function () { 
     const container = document.createElement('div');
     container.classList.add('container');
 
     const input = document.createElement('input');
     input.type = 'text';
+    
+    // Asignar una clase al input para modificarlo con CSS
+    input.classList.add('input-estilo');
+    
     container.appendChild(input);
 
     // Asegurarnos de que el texto se vea en mayúsculas
@@ -898,130 +895,162 @@ img#logo{
     // Asegurarnos de que el input se enfoque después de que el DOM se haya actualizado
     setTimeout(function() {
         input.focus();  // Esto debería asegurar que el input se enfoque correctamente
+
+        // Asegurarse de que el input sea visible sin desplazar la página
+        input.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 0);  // Ejecutarlo después de que el DOM haya procesado el cambio
 
+    // Función para iniciar el reconocimiento de voz
+    const startVoiceRecognition = () => {
+        // Verificar si la API de reconocimiento de voz está disponible
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'es-ES';  // Configurar el idioma (en este caso, español)
+
+        recognition.start();  // Iniciar el reconocimiento de voz
+
+        recognition.onresult = function (event) {
+            const transcript = event.results[0][0].transcript;  // Obtener el texto del primer resultado
+            input.value = transcript;  // Asignar el texto al input
+
+            // Asegurarnos de que el texto se vea en mayúsculas
+            input.value = input.value.toUpperCase();
+        };
+
+        recognition.onerror = function (event) {
+            console.error('Error en el reconocimiento de voz:', event.error);  // Manejar errores
+        };
+    };
+
+    // Iniciar el reconocimiento de voz al hacer clic en el input
+    input.addEventListener('focus', function () {
+        startVoiceRecognition();  // Iniciar reconocimiento cuando el input obtiene el foco
+    });
+
     input.addEventListener('keydown', function (event) {
-    if (event.key === 'Enter') {
-        const text = input.value.trim();
-        if (text) {
-            const currentTime = new Date();
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Evita el comportamiento predeterminado (como el desplazamiento hacia arriba)
+            
+            const text = input.value.trim();
+            if (text) {
+                const currentTime = new Date();
 
-            // Crear el div con el contenido
-            const contentDiv = document.createElement('div');
-            contentDiv.classList.add('content');
+                // Crear el div con el contenido
+                const contentDiv = document.createElement('div');
+                contentDiv.classList.add('content');
 
-            const contentText = document.createElement('p');
-            contentText.textContent = text;
-            contentDiv.appendChild(contentText);
+                const contentText = document.createElement('p');
+                contentText.textContent = text;
+                contentDiv.appendChild(contentText);
 
-            // Mostrar la Entrada
-            const timeParagraph = document.createElement('p');
-            timeParagraph.textContent = 'Entrada: ' + currentTime.toLocaleTimeString();
-            contentDiv.appendChild(timeParagraph);
+                // Mostrar la Entrada
+                const timeParagraph = document.createElement('p');
+                timeParagraph.textContent = 'Entrada: ' + currentTime.toLocaleTimeString();
+                contentDiv.appendChild(timeParagraph);
 
-            // Guardar la Entrada en el contenedor
-            contentDiv.dataset.creationTime = currentTime.toISOString();
+                // Guardar la Entrada en el contenedor
+                contentDiv.dataset.creationTime = currentTime.toISOString();
 
-            // Botón para mostrar el Tiempo y el precio
-            const timeButton = document.createElement('button');
-            timeButton.classList.add('btn', 'btn-SALIDA');
-            timeButton.textContent = 'Salida';
-            contentDiv.appendChild(timeButton);
+                // Botón para mostrar el Tiempo y el precio
+                const timeButton = document.createElement('button');
+                timeButton.classList.add('btn', 'btn-SALIDA');
+                timeButton.textContent = 'Salida';
+                contentDiv.appendChild(timeButton);
 
-            // Área para mostrar el Tiempo
-            const timeInfoDiv = document.createElement('div');
-            timeInfoDiv.classList.add('time-info');
-            contentDiv.appendChild(timeInfoDiv);
+                // Área para mostrar el Tiempo
+                const timeInfoDiv = document.createElement('div');
+                timeInfoDiv.classList.add('time-info');
+                contentDiv.appendChild(timeInfoDiv);
 
-            // Área para mostrar el precio
-            const priceInfoDiv = document.createElement('div');
-            priceInfoDiv.classList.add('price-info');
-            contentDiv.appendChild(priceInfoDiv);
+                // Área para mostrar el precio
+                const priceInfoDiv = document.createElement('div');
+                priceInfoDiv.classList.add('price-info');
+                contentDiv.appendChild(priceInfoDiv);
 
-            // Calcular y mostrar el Tiempo y precio
-            timeButton.addEventListener('click', function () {
-                // Deshabilitar el botón de salida después de presionar
-                timeButton.disabled = true;
+                // Calcular y mostrar el Tiempo y precio
+                timeButton.addEventListener('click', function () {
+                    // Deshabilitar el botón de salida después de presionar
+                    timeButton.disabled = true;
 
-                const creationTime = new Date(contentDiv.dataset.creationTime);
-                const ahora = new Date();
+                    const creationTime = new Date(contentDiv.dataset.creationTime);
+                    const ahora = new Date();
 
-                // Calcular la diferencia en segundos
-                const diferenciaSegundos = Math.floor((ahora - creationTime) / 1000);
+                    // Calcular la diferencia en segundos
+                    const diferenciaSegundos = Math.floor((ahora - creationTime) / 1000);
 
-                // Calcular la cantidad de minutos completos que han pasado
-                const diferenciaMinutos = Math.ceil(diferenciaSegundos / 60); 
+                    // Calcular la cantidad de minutos completos que han pasado
+                    const diferenciaMinutos = Math.ceil(diferenciaSegundos / 60); 
 
-                // Primer precio de $200
-                let precio = 200;
+                    // Primer precio de $200
+                    let precio = 200;
 
-                // Si han pasado minutos, cobramos $40 por cada minuto adicional
-                if (diferenciaMinutos > 0) {
-                    precio += diferenciaMinutos * 40; // Precio adicional por cada minuto
-                }
+                    // Si han pasado minutos, cobramos $40 por cada minuto adicional
+                    if (diferenciaMinutos > 0) {
+                        precio += diferenciaMinutos * 40; // Precio adicional por cada minuto
+                    }
 
-                // Mostrar el Tiempo en el div correspondiente
-                timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} minutos.`;
+                    // Mostrar el Tiempo en el div correspondiente
+                    timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} minutos.`;
 
-                // Mostrar el precio en el div correspondiente
-                priceInfoDiv.innerHTML = `Pagar: $${precio}`;
+                    // Mostrar el precio en el div correspondiente
+                    priceInfoDiv.innerHTML = `Pagar: $${precio}`;
 
-                // Crear los botones de Efectivo y Tarjeta al presionar el botón de Tiempo y precio
-                const efectivoBtn = document.createElement('button');
-                efectivoBtn.classList.add('btn', 'btn-light');
-                efectivoBtn.textContent = 'Efectivo';
+                    // Crear los botones de Efectivo y Tarjeta al presionar el botón de Tiempo y precio
+                    const efectivoBtn = document.createElement('button');
+                    efectivoBtn.classList.add('btn', 'btn-light');
+                    efectivoBtn.textContent = 'Efectivo';
 
-                const tarjetaBtn = document.createElement('button');
-                tarjetaBtn.classList.add('btn', 'btn-info');
-                tarjetaBtn.textContent = 'Tarjeta';
+                    const tarjetaBtn = document.createElement('button');
+                    tarjetaBtn.classList.add('btn', 'btn-info');
+                    tarjetaBtn.textContent = 'Tarjeta';
 
-                // Añadir los botones a la div de contenido
-                contentDiv.appendChild(efectivoBtn);
-                contentDiv.appendChild(tarjetaBtn);
+                    // Añadir los botones a la div de contenido
+                    contentDiv.appendChild(efectivoBtn);
+                    contentDiv.appendChild(tarjetaBtn);
 
-                // Función para cambiar el color a verde claro (Efectivo)
-                efectivoBtn.addEventListener('click', function() {
-                    // Desactivar ambos botones después de presionar uno
-                    efectivoBtn.disabled = true;
-                    tarjetaBtn.disabled = true;
+                    // Función para cambiar el color a verde claro (Efectivo)
+                    efectivoBtn.addEventListener('click', function() {
+                        // Desactivar ambos botones después de presionar uno
+                        efectivoBtn.disabled = true;
+                        tarjetaBtn.disabled = true;
 
-                    contentDiv.style.backgroundColor = 'lightgreen';
-                    totalEfectivo += precio; // Sumar el precio al total de efectivo
-                    document.getElementById('totalEfectivo').textContent = `Total Efectivo: $${totalEfectivo}`;
-                    updateTotalPatentes();  // Actualizar el total de Patentes
-                    saveContent();  // Guardar el estado con el color actualizado
+                        contentDiv.style.backgroundColor = 'lightgreen';
+                        totalEfectivo += precio; // Sumar el precio al total de efectivo
+                        document.getElementById('totalEfectivo').textContent = `Total Efectivo: $${totalEfectivo}`;
+                        updateTotalPatentes();  // Actualizar el total de Patentes
+                        saveContent();  // Guardar el estado con el color actualizado
+                    });
+
+                    // Función para cambiar el color a azul claro (Tarjeta)
+                    tarjetaBtn.addEventListener('click', function() {
+                        // Desactivar ambos botones después de presionar uno
+                        efectivoBtn.disabled = true;
+                        tarjetaBtn.disabled = true;
+
+                        contentDiv.style.backgroundColor = 'lightblue';
+                        totalTarjetas += precio; // Sumar el precio al total de tarjetas
+                        document.getElementById('totalTarjetas').textContent = `Total Tarjetas: $${totalTarjetas}`;
+                        updateTotalPatentes();  // Actualizar el total de Patentes
+                        saveContent();  // Guardar el estado con el color actualizado
+                    });
+
+                    // Guardar el contenido actualizado después de calcular el Tiempo
+                    saveContent();
                 });
 
-                // Función para cambiar el color a azul claro (Tarjeta)
-                tarjetaBtn.addEventListener('click', function() {
-                    // Desactivar ambos botones después de presionar uno
-                    efectivoBtn.disabled = true;
-                    tarjetaBtn.disabled = true;
+                // Eliminar el input
+                container.remove();
+                document.getElementById('contentContainer').appendChild(contentDiv);
 
-                    contentDiv.style.backgroundColor = 'lightblue';
-                    totalTarjetas += precio; // Sumar el precio al total de tarjetas
-                    document.getElementById('totalTarjetas').textContent = `Total Tarjetas: $${totalTarjetas}`;
-                    updateTotalPatentes();  // Actualizar el total de Patentes
-                    saveContent();  // Guardar el estado con el color actualizado
-                });
+                // Asegurarse de que el contenedor recién creado tenga el foco
+                contentDiv.tabIndex = -1; // Hacer que el div sea enfocable
+                contentDiv.focus(); // Enfocar el contenedor recién creado
 
-                // Guardar el contenido actualizado después de calcular el Tiempo
+                // Guardar el contenido después de agregarlo
                 saveContent();
-            });
-
-            // Eliminar el input
-            container.remove();
-            document.getElementById('contentContainer').appendChild(contentDiv);
-
-            // Guardar el contenido después de agregarlo
-            saveContent();
+            }
         }
-    }
+    });
 });
-
-});
-
-
 
 
         
