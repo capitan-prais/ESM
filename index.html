@@ -271,14 +271,14 @@ button {
 }
 
 /* Efecto hover para los botones */
-.btn-SALIDA:hover, .btn-light:hover, .btn-info:hover {
+.btn-SALIDA:hover, .btn-light:hover, .btn-info:hover, .btn-warning:hover{
     transform: scale(1);  /* Efecto de aumento de tamaño */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Sombra más intensa */
     letter-spacing: 1px; /* Mayor espacio entre letras */
 }
 
 /* Efecto active (cuando se hace clic) para los botones */
-.btn-SALIDA:active, .btn-light:active, .btn-info:active {
+.btn-SALIDA:active, .btn-light:active, .btn-info:active, .btn-warning:active{
     transform: scale(0.98);  /* Efecto de reducción de tamaño */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Sombra más tenue */
 }
@@ -296,10 +296,23 @@ button {
     background-color: #e53935; /* Rojo más oscuro al hacer clic */
 }
 
+/* Botón lele ( btn-warning) */
+.btn-warning{
+    background-color: #004d40; /* Verde */
+}
+
+.btn-warning:hover {
+    background-color: #009e83; /* Verde más brillante */
+}
+
+.btn-warning:active {
+    background-color: #006c5a; /* Verde más oscuro */
+}
+
+
 /* Botón efectivo (btn-light) */
 .btn-light {
     background-color: #28a745; /* Verde */
-    cursor: not-allowed; /* Indica que no se puede hacer clic */
 }
 
 .btn-light:hover {
@@ -313,7 +326,6 @@ button {
 /* Botón tarjeta (btn-info) */
 .btn-info {
     background-color: #0056b3; /* Azul */
-    cursor: not-allowed; /* Indica que no se puede hacer clic */
 }
 
 .btn-info:hover {
@@ -546,6 +558,18 @@ img#logo{
     font-size: 25px;
     
 }
+
+
+/* Asegura que los botones tengan el cursor normal de puntero cuando estén habilitados */
+button:not([disabled]) {
+    cursor: pointer;
+}
+
+/* Asegura que el cursor sea el estándar 'not-allowed' solo cuando el botón está deshabilitado */
+button[disabled] {
+    cursor: not-allowed;
+}
+
 
 
     </style>
@@ -819,7 +843,8 @@ img#logo{
             localStorage.setItem('precioBaños', JSON.stringify(precioBaños));
         }
 
-        document.getElementById('addInputBtn').addEventListener('click', function () { 
+
+        document.getElementById('addInputBtn').addEventListener('click', function () {  
     const container = document.createElement('div');
     container.classList.add('container');
 
@@ -925,6 +950,18 @@ img#logo{
                     tarjetaBtn.classList.add('btn', 'btn-info');
                     tarjetaBtn.textContent = 'Tarjeta';
 
+                    // Crear el botón "Lele" que suma $500 al precio
+                    const leleBtn = document.createElement('button');
+                    leleBtn.classList.add('btn', 'btn-warning');
+                    leleBtn.textContent = 'baño';
+                    contentDiv.appendChild(leleBtn);
+
+                    // Agregar el evento para el botón "Lele"
+                    leleBtn.addEventListener('click', function () {
+                        precio += 500; // Sumar $500 al precio
+                        priceInfoDiv.innerHTML = `Pagar: $${precio}`; // Actualizar el precio
+                    });
+
                     // Añadir los botones a la div de contenido
                     contentDiv.appendChild(efectivoBtn);
                     contentDiv.appendChild(tarjetaBtn);
@@ -934,6 +971,7 @@ img#logo{
                         // Desactivar ambos botones después de presionar uno
                         efectivoBtn.disabled = true;
                         tarjetaBtn.disabled = true;
+                        leleBtn.disabled = true;  // Deshabilitar el botón Lele
 
                         contentDiv.style.backgroundColor = 'lightgreen';
                         totalEfectivo += precio; // Sumar el precio al total de efectivo
@@ -947,6 +985,7 @@ img#logo{
                         // Desactivar ambos botones después de presionar uno
                         efectivoBtn.disabled = true;
                         tarjetaBtn.disabled = true;
+                        leleBtn.disabled = true;  // Deshabilitar el botón Lele
 
                         contentDiv.style.backgroundColor = 'lightblue';
                         totalTarjetas += precio; // Sumar el precio al total de tarjetas
@@ -973,7 +1012,6 @@ img#logo{
         }
     });
 });
-
 
 
         
