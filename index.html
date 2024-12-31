@@ -658,8 +658,6 @@ button[disabled] {
       <button id="addBañoBtn" class="btn btn-light">Agregar Baño</button>
     </div>
 
-     
-
     <script>
         let totalEfectivo = 0; // Variable para mantener el total en efectivo
         let totalTarjetas = 0; // Variable para mantener el total con tarjeta
@@ -674,6 +672,7 @@ button[disabled] {
             const savedTotalPatentes = JSON.parse(localStorage.getItem('totalPatentes'));
             const savedCantidadBaños = JSON.parse(localStorage.getItem('cantidadBaños'));
             const savedPrecioBaños = JSON.parse(localStorage.getItem('precioBaños'));
+
 
             if (savedContent) {
                 savedContent.forEach(function(item) {
@@ -744,24 +743,37 @@ button[disabled] {
             priceInfoDiv.textContent = price;
             contentDiv.appendChild(priceInfoDiv);
 
-            // Función para mostrar el Tiempo y el precio
-            timeButton.addEventListener('click', function () {
-                const creationTime = new Date(contentDiv.dataset.creationTime);
-                const ahora = new Date();
+           // Calcular y mostrar el Tiempo y precio
+           timeButton.addEventListener('click', function () {
+                    // Deshabilitar el botón de salida después de presionar
+                    timeButton.disabled = true;
 
-                // Calcular la diferencia en segundos
-                const diferenciaSegundos = Math.floor((ahora - creationTime) / 1000);
+                     // Guardar el estado del botón "Salida" en localStorage
+    localStorage.setItem('salidaState', JSON.stringify(true));
 
-                // Calcular la cantidad de minutos completos que han pasado
-                const diferenciaMinutos = Math.ceil(diferenciaSegundos / 60); 
+                    const creationTime = new Date(contentDiv.dataset.creationTime);
+                    const ahora = new Date();
 
-                // Primer precio de $200
-                let precio = 200;
+             // Calcular la diferencia en segundos
+const diferenciaSegundos = Math.floor((ahora - creationTime) / 1000);
 
-                // Si han pasado minutos, cobramos $40 por cada minuto adicional
-                if (diferenciaMinutos > 0) {
-                    precio += diferenciaMinutos * 40; // Precio adicional por cada minuto
-                }
+// Calcular la cantidad de minutos completos que han pasado
+const diferenciaMinutos = Math.ceil(diferenciaSegundos / 60);
+
+// Variable para el precio base
+let precio = 0;
+
+// Dependiendo de la cantidad de minutos transcurridos, asignar el precio correspondiente
+if (diferenciaMinutos <= 30) {
+    precio = 600; // $600 si es hasta 30 minutos
+} else if (diferenciaMinutos <= 60) {
+    precio = 1200; // $1200 si son más de 30 minutos, pero hasta 60 minutos
+} else if (diferenciaMinutos <= 90) {
+    precio = 1800; // $1800 si son más de 60 minutos, pero hasta 90 minutos
+} else {
+    // Si son más de 90 minutos, calculamos el precio adicional
+    precio = 1800 + Math.ceil((diferenciaMinutos - 90) / 30) * 600; // $600 por cada 30 minutos adicionales
+}
 
                 // Mostrar el Tiempo en el div correspondiente
                 timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} minutos.`;
@@ -778,27 +790,49 @@ button[disabled] {
                 tarjetaBtn.classList.add('btn', 'btn-info');
                 tarjetaBtn.textContent = 'Tarjeta';
 
+                // Crear el botón "Lele" que suma $500 al precio
+                const leleBtn = document.createElement('button');
+                    leleBtn.classList.add('btn', 'btn-warning');
+                    leleBtn.textContent = 'baño';
+                    contentDiv.appendChild(leleBtn);
+
+                    // Agregar el evento para el botón "Lele"
+                    leleBtn.addEventListener('click', function () {
+                        precio += 500; // Sumar $500 al precio
+                        priceInfoDiv.innerHTML = `Pagar: $${precio}`; // Actualizar el precio
+                    });
+
                 // Añadir los botones a la div de contenido
                 contentDiv.appendChild(efectivoBtn);
                 contentDiv.appendChild(tarjetaBtn);
 
                 // Función para cambiar el color a verde claro (Efectivo)
                 efectivoBtn.addEventListener('click', function() {
-                    contentDiv.style.backgroundColor = 'lightgreen';
-                    totalEfectivo += precio; // Sumar el precio al total de efectivo
-                    document.getElementById('totalEfectivo').textContent = `Total Efectivo: $${totalEfectivo}`;
-                    updateTotalPatentes();  // Actualizar el total de Patentes
-                    saveContent();  // Guardar el estado con el color actualizado
-                });
+                        // Desactivar ambos botones después de presionar uno
+                        efectivoBtn.disabled = true;
+                        tarjetaBtn.disabled = true;
+                        leleBtn.disabled = true;  // Deshabilitar el botón Lele
+
+                        contentDiv.style.backgroundColor = 'lightgreen';
+                        totalEfectivo += precio; // Sumar el precio al total de efectivo
+                        document.getElementById('totalEfectivo').textContent = `Total Efectivo: $${totalEfectivo}`;
+                        updateTotalPatentes();  // Actualizar el total de Patentes
+                        saveContent();  // Guardar el estado con el color actualizado
+                    });
 
                 // Función para cambiar el color a azul claro (Tarjeta)
                 tarjetaBtn.addEventListener('click', function() {
-                    contentDiv.style.backgroundColor = 'lightblue';
-                    totalTarjetas += precio; // Sumar el precio al total de tarjetas
-                    document.getElementById('totalTarjetas').textContent = `Total Tarjetas: $${totalTarjetas}`;
-                    updateTotalPatentes();  // Actualizar el total de Patentes
-                    saveContent();  // Guardar el estado con el color actualizado
-                });
+                        // Desactivar ambos botones después de presionar uno
+                        efectivoBtn.disabled = true;
+                        tarjetaBtn.disabled = true;
+                        leleBtn.disabled = true;  // Deshabilitar el botón Lele
+
+                        contentDiv.style.backgroundColor = 'lightblue';
+                        totalTarjetas += precio; // Sumar el precio al total de tarjetas
+                        document.getElementById('totalTarjetas').textContent = `Total Tarjetas: $${totalTarjetas}`;
+                        updateTotalPatentes();  // Actualizar el total de Patentes
+                        saveContent();  // Guardar el estado con el color actualizado
+                    });
 
                 // Guardar el contenido actualizado después de calcular el Tiempo
                 saveContent();
@@ -926,19 +960,26 @@ button[disabled] {
                     const creationTime = new Date(contentDiv.dataset.creationTime);
                     const ahora = new Date();
 
-                    // Calcular la diferencia en segundos
-                    const diferenciaSegundos = Math.floor((ahora - creationTime) / 1000);
+                // Calcular la diferencia en segundos
+const diferenciaSegundos = Math.floor((ahora - creationTime) / 1000);
 
-                    // Calcular la cantidad de minutos completos que han pasado
-                    const diferenciaMinutos = Math.ceil(diferenciaSegundos / 60); 
+// Calcular la cantidad de minutos completos que han pasado
+const diferenciaMinutos = Math.ceil(diferenciaSegundos / 60);
 
-                    // Primer precio de $200
-                    let precio = 200;
+// Variable para el precio base
+let precio = 0;
 
-                    // Si han pasado minutos, cobramos $40 por cada minuto adicional
-                    if (diferenciaMinutos > 0) {
-                        precio += diferenciaMinutos * 40; // Precio adicional por cada minuto
-                    }
+// Dependiendo de la cantidad de minutos transcurridos, asignar el precio correspondiente
+if (diferenciaMinutos <= 30) {
+    precio = 600; // $600 si es hasta 30 minutos
+} else if (diferenciaMinutos <= 60) {
+    precio = 1200; // $1200 si son más de 30 minutos, pero hasta 60 minutos
+} else if (diferenciaMinutos <= 90) {
+    precio = 1800; // $1800 si son más de 60 minutos, pero hasta 90 minutos
+} else {
+    // Si son más de 90 minutos, calculamos el precio adicional
+    precio = 1800 + Math.ceil((diferenciaMinutos - 90) / 30) * 600; // $600 por cada 30 minutos adicionales
+}
 
                     // Mostrar el Tiempo en el div correspondiente
                     timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} minutos.`;
@@ -1126,8 +1167,6 @@ function buscarPatente() {
     document.getElementById('imagen-logo').src = 'impresora2.png'; // Restaura la imagen original
   }
     </script>
+
 </body>
 </html>
-
-
-
