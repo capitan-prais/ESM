@@ -324,6 +324,7 @@ button {
     animation: bounceIn .4s ease-out forwards;
     animation-delay: .6s;
     padding: 5px 20px 5px 20px;
+    width: 45%;
 }
 
 .btn-light:hover {
@@ -342,6 +343,7 @@ button {
     animation: bounceIn .4s ease-out forwards;
     animation-delay: .6s;
     padding: 5px 20px 5px 20px;
+    width: 45%;
 }
 
 .btn-info:hover {
@@ -608,6 +610,22 @@ button[disabled] {
     padding: 10px;
 }
 
+.price-info{
+    width: 30%;
+}
+
+.time-info{
+    width: 30%;
+}
+
+p {
+    width: 30%;
+}
+
+.parrafomodal{
+    width: 100%;
+}
+
     </style>
 </head>
 <body>
@@ -672,7 +690,7 @@ button[disabled] {
 <!-- Modal de confirmación -->
 <div id="confirmModal">
     <div class="modal-content">
-        <p>¿Ya enviaste el formulario por correo?</p>
+        <p class="parrafomodal">¿Ya enviaste el formulario por correo?</p>
         <div class="modal-buttons">
             <button onclick="eliminarContenido(true)">Sí</button>
             <button onclick="eliminarContenido(false)">No</button>
@@ -808,7 +826,7 @@ if (diferenciaMinutos <= 30) {
 }
 
                 // Mostrar el Tiempo en el div correspondiente
-                timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} minutos.`;
+                timeInfoDiv.innerHTML = `Tiempo: <br> ${diferenciaMinutos} min.`;
 
                 // Mostrar el precio en el div correspondiente
                 priceInfoDiv.innerHTML = `Pagar: $${precio}`;
@@ -1018,7 +1036,7 @@ if (diferenciaMinutos <= 30) {
 }
 
                     // Mostrar el Tiempo en el div correspondiente
-                    timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} minutos.`;
+                    timeInfoDiv.innerHTML = `Tiempo: <br>  ${diferenciaMinutos} min.`;
 
                     // Mostrar el precio en el div correspondiente
                     priceInfoDiv.innerHTML = `Pagar: $${precio}`;
