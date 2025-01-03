@@ -8,14 +8,9 @@
 /* Variables CSS */
 :root {
     --primary-color: #00796b;
-    --secondary-color: #4caf50;
-    --danger-color: #e53935;
-    --light-color: #fafafa;
     --dark-color: #333;
-    --bg-color: #f9fafb;
     --box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
     --transition-speed: 0.3s;
-    --scale-effect: 1.05;
 }
 
 /* Reset de márgenes y rellenos */
@@ -65,7 +60,6 @@ body {
     background-color: #fff;
     border-radius: 15px;
     box-shadow: var(--box-shadow);
-    margin-top: 60px;
     text-align: center;
     overflow: hidden;
     display: flex;
@@ -107,10 +101,10 @@ h1 {
 .search-container {
     z-index: 9999;
     width: 100%;
-    max-width: 480px;
+    max-width: 80%;
     margin-bottom: 30px;
-    animation: fadeInUp 1s ease-out 0.2s;
 }
+
 
 /* Estilo para el input de búsqueda */
 #searchInput {
@@ -126,6 +120,16 @@ h1 {
     border: 2px solid #ccc;
     outline: none;
     transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+    animation: aparecerDesdeArriba 1s ease-out; /* Agrega la animación */
+}
+
+@keyframes aparecerDesdeArriba {
+    0% {
+        transform: translateX(-50%) translateY(-100%); /* Comienza fuera de la vista, arriba */
+    }
+    100% {
+        transform: translateX(-50%) translateY(0); /* Llega a su posición final */
+    }
 }
 
 /* Estilo de foco para el input de búsqueda */
@@ -140,11 +144,12 @@ h1 {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%); /* Centrado horizontal */
-    width: auto; /* Ajuste de ancho automático */
+    width: 100%; /* Ajuste de ancho automático */
+    height: auto;
     max-width: 1300px; /* Definir un ancho máximo para no exceder el contenedor */
     background: linear-gradient(90deg, #00796b 0%, #004d40 100%); /* Degradado para un toque moderno */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Sombra sutil para darle profundidad */
-    padding: 15px 30px; /* Relleno más equilibrado */
+    padding: 10px 30px; /* Relleno más equilibrado */
     z-index: 1000;
     display: flex;
     justify-content: space-between; /* Espacio entre los elementos */
@@ -153,10 +158,21 @@ h1 {
     border-top-right-radius: 10px;
     color: white;
     font-size: 1.1em;
-    letter-spacing: 0.5px;
-    font-weight: 500;
+    letter-spacing: 0.5px; /*espacio adicional entre cada letra del texto. */
+    font-weight: 500; /*establece el grosor (peso) de la fuente del texto.*/
     transition: background 0.3s ease, box-shadow 0.3s ease; /* Efecto suave al cambiar */
+    animation: aparecerDesdeAbajo 1s ease-out; /* Agrega la animación */
 }
+
+@keyframes aparecerDesdeAbajo {
+    0% {
+        transform: translateX(-50%) translateY(100%); /* Comienza fuera de la vista, abajo */
+    }
+    100% {
+        transform: translateX(-50%) translateY(0); /* Llega a su posición final */
+    }
+}
+
 
 
 /* Efecto hover para un cambio más elegante */
@@ -165,14 +181,7 @@ h1 {
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2); /* Aumentar sombra al pasar el mouse */
 }
 
-/* Estilo para los elementos dentro del contenedor-fijo */
-.contenedor-fijo {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: 1300px;
-}
+
 
 /* Espaciado entre los elementos dentro del contenedor */
 .contenedor-fijo  > * {
@@ -216,13 +225,14 @@ h1 {
 /* Estilo para el contenedor de contenido con animación */
 .content {
     position: relative;
+    overflow: hidden;
     font-weight: bold;  /* Hace el texto más destacado */
     font-size: 17px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 15px;
     padding: 8px;
     background-color: #f9fafb;
     border: 1px solid #e2e8f0;
@@ -235,7 +245,7 @@ h1 {
 
 @media (max-width: 450px) {
     .content{
-        font-size: 17px;
+        font-size: 10px;
     }
 }
 
@@ -313,6 +323,10 @@ button {
     color: #000;
     background-color: #36daff; /* Verde */
     border: solid 1px #000;
+    opacity: 0;
+    animation: bounceIn .4s ease-out forwards;
+    animation-delay: .1s;
+    
 }
 
 
@@ -320,6 +334,9 @@ button {
 .btn-light {
     background-color: #28a745; /* Verde */
     border: solid 1px #000;
+    opacity: 0;
+    animation: bounceIn .4s ease-out forwards;
+    animation-delay: .6s;
 }
 
 .btn-light:hover {
@@ -334,6 +351,9 @@ button {
 .btn-info {
     background-color: #0056b3; /* Azul */
     border: solid 1px #000;
+    opacity: 0;
+    animation: bounceIn .4s ease-out forwards;
+    animation-delay: .6s;
 }
 
 .btn-info:hover {
@@ -354,11 +374,21 @@ div .content{
 }
 
 .btn-danger{
-    margin-top: 300px;
+    margin-top: 220px;
     margin-bottom: 300px;
+    padding: 15px;
     background-color: red;
     color: white;
-        
+    animation: aparecerDesdeIzquierda 1s ease-out; /* Aparece desde la izquierda */
+}
+
+@keyframes aparecerDesdeIzquierda {
+    0% {
+        transform: translateX(-100%); /* Comienza fuera de la vista, a la izquierda */
+    }
+    100% {
+        transform: translateX(0); /* Llega a su posición final */
+    }
 }
 
 /* estilos para el logo de la pagina /////////////////////////////////////////////////////////*/
@@ -479,9 +509,6 @@ img#logo{
     display: none;
   }
 
-  .contenedor-fijo{
-    position: relative;
-  }
 
   
   .container-eliminar-imprimir{
@@ -562,10 +589,6 @@ img#logo{
     margin-bottom: 10px; /* Espacio entre los elementos */
 }
 
-#addBañoBtn{
-    padding: 15px;
-    z-index: 99999999999;
-}
 
 #totalPatentesYBaño{
     font-size: 25px;
@@ -584,6 +607,18 @@ button[disabled] {
 }
 
 
+/* espacio */
+
+.espacio{
+    width: 100%;
+    height: 60px;
+}
+
+.btn-light2{
+    color: #fff;
+    background: #007bff;
+    padding: 10px;
+}
 
     </style>
 </head>
@@ -593,6 +628,12 @@ button[disabled] {
     <div class="search-container">
         <input type="text" id="searchInput" placeholder="Buscar patente..." oninput="buscarPatente()">
     </div>
+
+
+
+    <div class="espacio"></div><!-- espacio -->
+
+    
 
     <button id="addInputBtn" class="btn btn-success">Agregar Patente</button>
     
@@ -640,7 +681,6 @@ button[disabled] {
    >
 
 
-
 <!-- Modal de confirmación -->
 <div id="confirmModal">
     <div class="modal-content">
@@ -660,7 +700,7 @@ button[disabled] {
           <span id="cantidadBaños">Cantidad: 0</span>
           <span id="precioBaños">total: $0</span>
       </div>
-      <button id="addBañoBtn" class="btn btn-light">Agregar Baño</button>
+      <button id="addBañoBtn" class="btn btn-light2">Agregar Baño</button>
     </div>
 
 
@@ -799,15 +839,16 @@ if (diferenciaMinutos <= 30) {
 
                 // Crear el botón "Lele" que suma $500 al precio
                 const leleBtn = document.createElement('button');
-                    leleBtn.classList.add('btn', 'btn-warning');
-                    leleBtn.textContent = 'baño';
-                    contentDiv.appendChild(leleBtn);
+leleBtn.classList.add('btn', 'btn-warning');
+leleBtn.textContent = 'baño';
+contentDiv.appendChild(leleBtn);
 
-                    // Agregar el evento para el botón "Lele"
-                    leleBtn.addEventListener('click', function () {
-                        precio += 500; // Sumar $500 al precio
-                        priceInfoDiv.innerHTML = `Pagar: $${precio}`; // Actualizar el precio
-                    });
+// Agregar el evento para el botón "Lele" (clic)
+leleBtn.addEventListener('click', function () {
+    precio += 500; // Sumar $500 al precio
+    priceInfoDiv.innerHTML = `Pagar: $${precio}`; // Actualizar el precio
+});
+
 
                 // Añadir los botones a la div de contenido
                 contentDiv.appendChild(efectivoBtn);
