@@ -233,6 +233,18 @@ h1 {
     animation: fadeInExpand 0.6s ease-out; /* Aplicando la animación */
 }
 
+@media (max-width: 450px) {
+    .content{
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 540px) {
+    .content{
+        font-size: 20px;
+    }
+}
+
 /* Efecto hover en el contenedor .content */
 .content:hover {
     background-color: #e3fafe; /* Un color suave y agradable */
@@ -251,13 +263,6 @@ h1 {
     }
 }
 
-/* Responsividad para pantallas más pequeñas */
-@media (max-width: 768px) {
-    .content {
-        width: 135%; /* Ajuste de ancho en pantallas pequeñas */
-    }
-}
-
 /* Estilo de los botones del contenedor de las patentes */
 button {
     color: #fff;
@@ -272,7 +277,7 @@ button {
 
 /* Efecto hover para los botones */
 .btn-SALIDA:hover, .btn-light:hover, .btn-info:hover, .btn-warning:hover{
-    transform: scale(1);  /* Efecto de aumento de tamaño */
+    transform: scale(1.1);  /* Efecto de aumento de tamaño */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Sombra más intensa */
     letter-spacing: 1px; /* Mayor espacio entre letras */
 }
@@ -286,6 +291,7 @@ button {
 /* Botón SALIDA */
 .btn-SALIDA {
     background-color: #dc3545; /* Rojo claro */
+    border: solid 1px #000;
 }
 
 .btn-SALIDA:hover {
@@ -298,21 +304,16 @@ button {
 
 /* Botón lele ( btn-warning) */
 .btn-warning{
-    background-color: #004d40; /* Verde */
-}
-
-.btn-warning:hover {
-    background-color: #009e83; /* Verde más brillante */
-}
-
-.btn-warning:active {
-    background-color: #006c5a; /* Verde más oscuro */
+    color: #000;
+    background-color: #36daff; /* Verde */
+    border: solid 1px #000;
 }
 
 
 /* Botón efectivo (btn-light) */
 .btn-light {
     background-color: #28a745; /* Verde */
+    border: solid 1px #000;
 }
 
 .btn-light:hover {
@@ -326,6 +327,7 @@ button {
 /* Botón tarjeta (btn-info) */
 .btn-info {
     background-color: #0056b3; /* Azul */
+    border: solid 1px #000;
 }
 
 .btn-info:hover {
@@ -621,7 +623,6 @@ button[disabled] {
 
          
    <!-- botn para imprimir ////////////////////////////////////////////////////////////77 -->
-
    <img 
    onclick="window.print()"
      src="impresora2.png" 
@@ -646,8 +647,6 @@ button[disabled] {
 </div>
 
 
-    
-
     <!-- Contenedor Baño -->
     <div class="contenedor-fijo" id="bathContainer">
       
@@ -657,6 +656,8 @@ button[disabled] {
       </div>
       <button id="addBañoBtn" class="btn btn-light">Agregar Baño</button>
     </div>
+
+
 
     <script>
         let totalEfectivo = 0; // Variable para mantener el total en efectivo
@@ -748,9 +749,6 @@ button[disabled] {
                     // Deshabilitar el botón de salida después de presionar
                     timeButton.disabled = true;
 
-                     // Guardar el estado del botón "Salida" en localStorage
-    localStorage.setItem('salidaState', JSON.stringify(true));
-
                     const creationTime = new Date(contentDiv.dataset.creationTime);
                     const ahora = new Date();
 
@@ -780,6 +778,9 @@ if (diferenciaMinutos <= 30) {
 
                 // Mostrar el precio en el div correspondiente
                 priceInfoDiv.innerHTML = `Pagar: $${precio}`;
+
+                // Cambiar el color del contenedor a rojo claro cuando se presiona 'Salida'
+                contentDiv.style.backgroundColor = 'lightcoral'; // Rojo claro
 
                 // Crear los botones de Efectivo y Tarjeta al presionar el botón de Tiempo y precio
                 const efectivoBtn = document.createElement('button');
@@ -986,6 +987,9 @@ if (diferenciaMinutos <= 30) {
 
                     // Mostrar el precio en el div correspondiente
                     priceInfoDiv.innerHTML = `Pagar: $${precio}`;
+
+                    // Cambiar el color del contenedor a rojo claro cuando se presiona 'Salida'
+                    contentDiv.style.backgroundColor = 'lightcoral'; // Rojo claro
 
                     // Crear los botones de Efectivo y Tarjeta al presionar el botón de Tiempo y precio
                     const efectivoBtn = document.createElement('button');
