@@ -117,7 +117,8 @@ h1 {
     padding: 15px 20px;
     font-size: 18px;
     border-radius: 50px;
-    border: 2px solid #ccc;
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 0 8px rgba(0, 128, 128, 0.6);
     outline: none;
     transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
     animation: aparecerDesdeArriba 1s ease-out; /* Agrega la animación */
@@ -132,11 +133,6 @@ h1 {
     }
 }
 
-/* Estilo de foco para el input de búsqueda */
-#searchInput:focus-visible {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 8px rgba(0, 128, 128, 0.6);
-}
 
 /* Contenedor fijo en la parte inferior */
 .contenedor-fijo {
