@@ -507,7 +507,7 @@ div .content{
 
   
   .container-eliminar-imprimir{
-    margin: 0px;
+    display: none;
   }
 
   .btn-danger{
@@ -516,6 +516,10 @@ div .content{
 
   .btn-warning{
     display: none;
+  }
+
+  .contenedor-fijo{
+    position: relative;
   }
 
 }
@@ -679,6 +683,8 @@ p {
      <div class="container-eliminar-imprimir">
          <button id="clearAllBtn" class="btn btn-danger">Eliminar Todo</button>
 
+    
+
          
    <!-- botn para imprimir ////////////////////////////////////////////////////////////77 -->
    <img 
@@ -690,6 +696,8 @@ p {
      onmouseover="cambiarImagen()" 
      onmouseout="restaurarImagen()"
    >
+
+</div>
 
 
 <!-- Modal de confirmación -->
@@ -831,7 +839,7 @@ if (diferenciaMinutos <= 30) {
 }
 
                 // Mostrar el Tiempo en el div correspondiente
-                timeInfoDiv.innerHTML = `Tiempo:   ${diferenciaMinutos} min.`;
+                timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} min.`;
 
                 // Mostrar el precio en el div correspondiente
                 priceInfoDiv.innerHTML = `Pagar: $${precio}`;
@@ -1041,7 +1049,7 @@ if (diferenciaMinutos <= 30) {
 }
 
                     // Mostrar el Tiempo en el div correspondiente
-                    timeInfoDiv.innerHTML = `Tiempo:    ${diferenciaMinutos} min.`;
+                    timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} min.`;
 
                     // Mostrar el precio en el div correspondiente
                     priceInfoDiv.innerHTML = `Pagar: $${precio}`;
