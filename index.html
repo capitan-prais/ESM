@@ -71,7 +71,7 @@ body {
 
 /* Título principal */
 h1 {
-    font-size: 2.6em;
+    font-size: 2.2em;
     color: #66bb6a;
     font-weight: bold;
     letter-spacing: 1px;
@@ -79,7 +79,10 @@ h1 {
     margin: 100px 10px 30px  10px;
     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
     line-height: 1.4;
-    animation: fadeInUp 1s ease-out;
+    z-index: 10;
+    opacity: 0;
+    animation: bounceIn .5s ease-out forwards;
+    animation-delay: 3.1s;
 }
 
 /* Contenedor de la barra de búsqueda */
@@ -369,7 +372,7 @@ div .content{
 /* estilos para el logo de la página */ 
 #logo {
     position: absolute;  /* Posicionamiento absoluto respecto al body */
-    margin: 7px 0px 0px 10px;
+    margin: 3px 0px 0px 10px;
     top: 0;    
     z-index: 2;         /* Alineado con la parte izquierda de la página */
     width: 300px;       /* Puedes ajustar el tamaño */
@@ -397,12 +400,12 @@ div .content{
 /* Animación para mover el logo */
 @keyframes moveleft {
     from {
-        opacity: 0;          /* Comienza con opacidad 0 */
-        transform: translateX(600px);  /* Comienza moviéndose hacia la derecha con escala y rotación */
+        opacity: 1;          /* Comienza con opacidad 0 */
+        transform: translateX(340px);  /* Comienza moviéndose hacia la derecha con escala y rotación */
     }
     to {
         opacity: 1;          /* Al final, opacidad 1 */
-        transform: translateX(0) scale(1.1) rotate(5deg); /* Vuelve a la posición original con escala y rotación */
+        transform: translateX(0) scale(1.1) rotate(7deg); /* Vuelve a la posición original con escala y rotación */
         filter: brightness(1.1);
     }
 }
@@ -412,24 +415,35 @@ div .content{
 /* boton que agrega patentes */ 
 
 .btn-success {
-            position: fixed;
-            bottom: 50%;
-            right: 0;
-            z-index: 2;
-            width: 160px;
-            height: 80px;
-            background-color: #218838;
-            padding: 12px 20px;  /* Aumenta el padding */
-            font-size: 18px;  /* Mayor tamaño de texto */
-            font-weight: bold;  /* Hace el texto más destacado */
-            border-radius: 10px;  /* Borde más redondeado */
-            text-transform: uppercase; /* Pone el texto en mayúsculas */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-            transition: all 0.3s ease;  /* Transición suave para efectos */
-            opacity: 0;
-            animation: bounceIn .5s ease-out forwards;
-            animation-delay: 3.1s;
-        }
+    position: fixed;
+    bottom: 50%;
+    right: 0;
+    z-index: 2;
+    width: 160px;
+    height: 80px;
+    background-color: #218838;
+    padding: 12px 20px;  /* Aumenta el padding */
+    font-size: 18px;  /* Mayor tamaño de texto */
+    font-weight: bold;  /* Hace el texto más destacado */
+    border-radius: 10px;  /* Borde más redondeado */
+    text-transform: uppercase; /* Pone el texto en mayúsculas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    transition: all 0.3s ease;  /* Transición suave para efectos */
+    animation: moveFromRight 1s ease-in-out forwards;  /* Añadimos la animación */
+}
+
+/* Definir la animación */
+@keyframes moveFromRight {
+    from {
+        transform: translateX(100%); /* Comienza fuera de la pantalla (a la derecha) */
+        opacity: 0; /* Empieza invisible */
+    }
+    to {
+        transform: translateX(0); /* Llega a su posición original */
+        opacity: 1; /* Se hace completamente visible */
+    }
+}
+
 
         @keyframes bounceIn {
             0% {
