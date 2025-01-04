@@ -414,6 +414,7 @@ div .content{
 
 /* boton que agrega patentes */ 
 
+/* Estilos generales para el botón */
 .btn-success {
     position: fixed;
     bottom: 50%;
@@ -430,7 +431,60 @@ div .content{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
     transition: all 0.3s ease;  /* Transición suave para efectos */
     animation: moveFromRight 1s ease-in-out forwards;  /* Añadimos la animación */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    position: fixed; /* Fija el botón */
+    display: inline-flex; /* Asegura que el contenido se comporte como bloque */
+    justify-content: center;
+    align-items: center;
 }
+
+/* Efecto de luz alrededor del botón */
+.btn-success::before {
+    content: "";
+    position: absolute;
+    width: 160px;
+    height: 80px;
+    border-radius: 10px;  /* Borde redondeado, igual que el botón */
+    background: transparent;
+    box-shadow: 0 0 20px rgba(2, 255, 36, 0.7);
+    animation: lightEffect 2s infinite linear;
+}
+
+/* Animación de luz recorriendo el contorno */
+@keyframes lightEffect {
+    0% {
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+    }
+    25% {
+        box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.7);
+    }
+    50% {
+        box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.7);
+    }
+    75% {
+        box-shadow: 5px -5px 25px rgba(0, 0, 0, 0.7);
+    }
+    100% {
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+    }
+}
+
+/* Animación de movimiento del botón */
+@keyframes moveFromRight {
+    0% {
+        right: -200px;
+    }
+    100% {
+        right: 0;
+    }
+}
+
+/* Efecto cuando el botón es hover */
+.btn-success:hover {
+    background-color: #1e7e34; /* Cambio de color de fondo al pasar el ratón */
+}
+
 
 /* Definir la animación */
 @keyframes moveFromRight {
