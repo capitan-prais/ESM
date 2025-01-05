@@ -1225,6 +1225,9 @@ function eliminarContenido(confirmado) {
 
         // Recargar la página
         location.reload();
+
+         // Desplazar hacia la parte superior de la página después de la recarga
+         window.scrollTo(0, 0);
     }
 
     // Cerrar el modal sin hacer nada si la respuesta es "No"
