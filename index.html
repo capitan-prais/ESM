@@ -8,9 +8,14 @@
 /* Variables CSS */
 :root {
     --primary-color: #00796b;
+    --secondary-color: #4caf50;
+    --danger-color: #e53935;
+    --light-color: #fafafa;
     --dark-color: #333;
+    --bg-color: #f9fafb;
     --box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
     --transition-speed: 0.3s;
+    --scale-effect: 1.05;
 }
 
 /* Reset de márgenes y rellenos */
@@ -60,6 +65,7 @@ body {
     background-color: #fff;
     border-radius: 15px;
     box-shadow: var(--box-shadow);
+    margin-top: 60px;
     text-align: center;
     overflow: hidden;
     display: flex;
@@ -68,31 +74,43 @@ body {
     animation: fadeInUp 0.8s ease-out;
 }
 
+/* Logo y título */
+#logo, #logo2 {
+    width: 200px;
+    display: block;
+    margin: 20px 0;
+    border-radius: 10px;
+    transition: transform var(--transition-speed), filter var(--transition-speed);
+    animation: fadeIn 1s ease-out;
+}
+
+/* Efecto de hover para el logo */
+#logo:hover, #logo2:hover {
+    transform: scale(1.1) rotate(5deg);
+    filter: brightness(1.2);
+}
 
 /* Título principal */
 h1 {
-    font-size: 2.2em;
-    color: #66bb6a;
+    font-size: 2.6em;
+    color: var(--primary-color);
     font-weight: bold;
     letter-spacing: 1px;
     text-transform: uppercase;
     margin: 100px 10px 30px  10px;
     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
     line-height: 1.4;
-    z-index: 10;
-    opacity: 0;
-    animation: bounceIn .5s ease-out forwards;
-    animation-delay: 3.1s;
+    animation: fadeInUp 1s ease-out;
 }
 
 /* Contenedor de la barra de búsqueda */
 .search-container {
     z-index: 9999;
     width: 100%;
-    max-width: 80%;
+    max-width: 480px;
     margin-bottom: 30px;
+    animation: fadeInUp 1s ease-out 0.2s;
 }
-
 
 /* Estilo para el input de búsqueda */
 #searchInput {
@@ -105,22 +123,16 @@ h1 {
     padding: 15px 20px;
     font-size: 18px;
     border-radius: 50px;
-    border: 2px solid var(--primary-color);
-    box-shadow: 0 0 8px rgba(0, 128, 128, 0.6);
+    border: 2px solid #ccc;
     outline: none;
     transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
-    animation: aparecerDesdeArriba 1s ease-out; /* Agrega la animación */
 }
 
-@keyframes aparecerDesdeArriba {
-    0% {
-        transform: translateX(-50%) translateY(-100%); /* Comienza fuera de la vista, arriba */
-    }
-    100% {
-        transform: translateX(-50%) translateY(0); /* Llega a su posición final */
-    }
+/* Estilo de foco para el input de búsqueda */
+#searchInput:focus-visible {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 8px rgba(0, 128, 128, 0.6);
 }
-
 
 /* Contenedor fijo en la parte inferior */
 .contenedor-fijo {
@@ -128,12 +140,11 @@ h1 {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%); /* Centrado horizontal */
-    width: 100%; /* Ajuste de ancho automático */
-    height: auto;
+    width: auto; /* Ajuste de ancho automático */
     max-width: 1300px; /* Definir un ancho máximo para no exceder el contenedor */
     background: linear-gradient(90deg, #00796b 0%, #004d40 100%); /* Degradado para un toque moderno */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Sombra sutil para darle profundidad */
-    padding: 10px 30px; /* Relleno más equilibrado */
+    padding: 15px 30px; /* Relleno más equilibrado */
     z-index: 1000;
     display: flex;
     justify-content: space-between; /* Espacio entre los elementos */
@@ -142,21 +153,10 @@ h1 {
     border-top-right-radius: 10px;
     color: white;
     font-size: 1.1em;
-    letter-spacing: 0.5px; /*espacio adicional entre cada letra del texto. */
-    font-weight: 500; /*establece el grosor (peso) de la fuente del texto.*/
+    letter-spacing: 0.5px;
+    font-weight: 500;
     transition: background 0.3s ease, box-shadow 0.3s ease; /* Efecto suave al cambiar */
-    animation: aparecerDesdeAbajo 1s ease-out; /* Agrega la animación */
 }
-
-@keyframes aparecerDesdeAbajo {
-    0% {
-        transform: translateX(-50%) translateY(100%); /* Comienza fuera de la vista, abajo */
-    }
-    100% {
-        transform: translateX(-50%) translateY(0); /* Llega a su posición final */
-    }
-}
-
 
 
 /* Efecto hover para un cambio más elegante */
@@ -165,7 +165,14 @@ h1 {
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2); /* Aumentar sombra al pasar el mouse */
 }
 
-
+/* Estilo para los elementos dentro del contenedor-fijo */
+.contenedor-fijo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1300px;
+}
 
 /* Espaciado entre los elementos dentro del contenedor */
 .contenedor-fijo  > * {
@@ -209,14 +216,13 @@ h1 {
 /* Estilo para el contenedor de contenido con animación */
 .content {
     position: relative;
-    overflow: hidden;
     font-weight: bold;  /* Hace el texto más destacado */
-    font-size: 20px;
-    margin-bottom: 15px;
+    font-size: 17px;
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 20px;
     padding: 8px;
     background-color: #f9fafb;
     border: 1px solid #e2e8f0;
@@ -226,8 +232,6 @@ h1 {
     justify-content: space-around;
     animation: fadeInExpand 0.6s ease-out; /* Aplicando la animación */
 }
-
-
 
 /* Efecto hover en el contenedor .content */
 .content:hover {
@@ -247,6 +251,13 @@ h1 {
     }
 }
 
+/* Responsividad para pantallas más pequeñas */
+@media (max-width: 768px) {
+    .content {
+        width: 135%; /* Ajuste de ancho en pantallas pequeñas */
+    }
+}
+
 /* Estilo de los botones del contenedor de las patentes */
 button {
     color: #fff;
@@ -256,17 +267,12 @@ button {
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;  /* Hace el texto más destacado */
-}
-
-@media (max-width: 650px) {
-    button{
-        font-size: 24px;
-    }
+    min-width: 90px; /* Evita que los botones se encojan demasiado */
 }
 
 /* Efecto hover para los botones */
 .btn-SALIDA:hover, .btn-light:hover, .btn-info:hover, .btn-warning:hover{
-    transform: scale(1.1);  /* Efecto de aumento de tamaño */
+    transform: scale(1);  /* Efecto de aumento de tamaño */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Sombra más intensa */
     letter-spacing: 1px; /* Mayor espacio entre letras */
 }
@@ -280,7 +286,6 @@ button {
 /* Botón SALIDA */
 .btn-SALIDA {
     background-color: #dc3545; /* Rojo claro */
-    border: solid 1px #000;
 }
 
 .btn-SALIDA:hover {
@@ -293,26 +298,21 @@ button {
 
 /* Botón lele ( btn-warning) */
 .btn-warning{
-    color: #000;
-    background-color: #36daff; /* Verde */
-    border: solid 1px #000;
-    opacity: 0;
-    animation: bounceIn .4s ease-out forwards;
-    animation-delay: .1s;
-    width: 65px;
-    
+    background-color: #004d40; /* Verde */
+}
+
+.btn-warning:hover {
+    background-color: #009e83; /* Verde más brillante */
+}
+
+.btn-warning:active {
+    background-color: #006c5a; /* Verde más oscuro */
 }
 
 
 /* Botón efectivo (btn-light) */
 .btn-light {
     background-color: #28a745; /* Verde */
-    border: solid 1px #000;
-    opacity: 0;
-    animation: bounceIn .4s ease-out forwards;
-    animation-delay: .6s;
-    padding: 5px 20px 5px 20px;
-    width: 40%;
 }
 
 .btn-light:hover {
@@ -326,12 +326,6 @@ button {
 /* Botón tarjeta (btn-info) */
 .btn-info {
     background-color: #0056b3; /* Azul */
-    border: solid 1px #000;
-    opacity: 0;
-    animation: bounceIn .4s ease-out forwards;
-    animation-delay: .6s;
-    padding: 5px 20px 5px 20px;
-    width: 40%;
 }
 
 .btn-info:hover {
@@ -352,152 +346,71 @@ div .content{
 }
 
 .btn-danger{
-    margin-top: 100px;
+    margin-top: 300px;
     margin-bottom: 300px;
-    padding: 15px;
     background-color: red;
     color: white;
-    animation: aparecerDesdeIzquierda 1s ease-out; /* Aparece desde la izquierda */
+        
 }
 
-@keyframes aparecerDesdeIzquierda {
-    0% {
-        transform: translateX(-100%); /* Comienza fuera de la vista, a la izquierda */
-    }
-    100% {
-        transform: translateX(0); /* Llega a su posición final */
-    }
-}
+/* estilos para el logo de la pagina /////////////////////////////////////////////////////////*/
 
-/* estilos para el logo de la página */ 
-#logo {
+img#logo{
     position: absolute;  /* Posicionamiento absoluto respecto al body */
-    margin: 3px 0px 0px 10px;
+    margin: 10px 0px 0px 10px;
     top: 0;    
     z-index: 2;         /* Alineado con la parte izquierda de la página */
-    width: 300px;       /* Puedes ajustar el tamaño */
-    height: 80px;       /* Ajusta el tamaño */
-    opacity: 1;         /* Logo visible desde el principio */
-    pointer-events: auto; /* Permite que el logo reciba eventos del mouse */
-    animation: moveleft 3s ease-in-out forwards;  /* La animación entra en acción */
-}
+    width: 300px;         /* Puedes ajustar el tamaño */
+    height: 80px;       /* Z-index alto para que quede encima de todo */
+    pointer-events: none; /* Hace que la imagen no interfiera con la interacción con otros elementos */
+    opacity: 0;
+    transition: all 0.3s ease;
+    animation: moveleft 3s ease-in-out forwards;
+ }
 
-/* Efecto hover: Elevar el logo, cambiar sombra y aplicar transformación */
-#logo:hover {
-    filter: brightness(1.2);
-}
-
-#logo2 {
+ img#logo2{
     position: absolute;  /* Posicionamiento absoluto respecto al body */
-    margin: 0px 0px 0px 10px;
+    margin: 10px 0px 0px 10px;
     top: 0;     
     z-index: 1;          /* Alineado con la parte izquierda de la página */
-    width: 310px;        /* Puedes ajustar el tamaño */
-    height: 100px;        /* Ajusta el tamaño */
+    width: 300px;         /* Puedes ajustar el tamaño */
+    height: 80px;        /* Z-index alto para que quede encima de todo */
     pointer-events: none; /* Hace que la imagen no interfiera con la interacción con otros elementos */
-}
+ }
 
-/* Animación para mover el logo */
-@keyframes moveleft {
-    from {
-        opacity: 1;          /* Comienza con opacidad 0 */
-        transform: translateX(340px);  /* Comienza moviéndose hacia la derecha con escala y rotación */
-    }
-    to {
-        opacity: 1;          /* Al final, opacidad 1 */
-        transform: translateX(0) scale(1.1) rotate(7deg); /* Vuelve a la posición original con escala y rotación */
-        filter: brightness(1.1);
-    }
-}
-
+ @keyframes moveleft {
+            from {
+                opacity: 0;
+                transform: translateX(300px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0); /* Ajusta según lo necesario */
+            }
+        }
 
 
 /* boton que agrega patentes */ 
 
-/* Estilos generales para el botón */
 .btn-success {
-    position: fixed;
-    bottom: 50%;
-    right: 0;
-    z-index: 2;
-    width: 160px;
-    height: 80px;
-    background-color: #218838;
-    padding: 12px 20px;  /* Aumenta el padding */
-    font-size: 18px;  /* Mayor tamaño de texto */
-    font-weight: bold;  /* Hace el texto más destacado */
-    border-radius: 10px;  /* Borde más redondeado */
-    text-transform: uppercase; /* Pone el texto en mayúsculas */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    transition: all 0.3s ease;  /* Transición suave para efectos */
-    animation: moveFromRight 1s ease-in-out forwards;  /* Añadimos la animación */
-    color: white; /* Color del texto */
-    border: none; /* Sin borde */
-    position: fixed; /* Fija el botón */
-    display: inline-flex; /* Asegura que el contenido se comporte como bloque */
-    justify-content: center;
-    align-items: center;
-}
-
-/* Efecto de luz alrededor del botón */
-.btn-success::before {
-    content: "";
-    position: absolute;
-    width: 160px;
-    height: 80px;
-    border-radius: 10px;  /* Borde redondeado, igual que el botón */
-    background: transparent;
-    box-shadow: 0 0 20px rgba(2, 255, 36, 0.7);
-    animation: lightEffect 2s infinite linear;
-}
-
-/* Animación de luz recorriendo el contorno */
-@keyframes lightEffect {
-    0% {
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
-    }
-    25% {
-        box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.7);
-    }
-    50% {
-        box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.7);
-    }
-    75% {
-        box-shadow: 5px -5px 25px rgba(0, 0, 0, 0.7);
-    }
-    100% {
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
-    }
-}
-
-/* Animación de movimiento del botón */
-@keyframes moveFromRight {
-    0% {
-        right: -200px;
-    }
-    100% {
-        right: 0;
-    }
-}
-
-/* Efecto cuando el botón es hover */
-.btn-success:hover {
-    background-color: #1e7e34; /* Cambio de color de fondo al pasar el ratón */
-}
-
-
-/* Definir la animación */
-@keyframes moveFromRight {
-    from {
-        transform: translateX(100%); /* Comienza fuera de la pantalla (a la derecha) */
-        opacity: 0; /* Empieza invisible */
-    }
-    to {
-        transform: translateX(0); /* Llega a su posición original */
-        opacity: 1; /* Se hace completamente visible */
-    }
-}
-
+            position: fixed;
+            bottom: 50%;
+            right: 0;
+            z-index: 2;
+            width: 160px;
+            height: 80px;
+            background-color: #218838;
+            padding: 12px 20px;  /* Aumenta el padding */
+            font-size: 18px;  /* Mayor tamaño de texto */
+            font-weight: bold;  /* Hace el texto más destacado */
+            border-radius: 10px;  /* Borde más redondeado */
+            text-transform: uppercase; /* Pone el texto en mayúsculas */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            transition: all 0.3s ease;  /* Transición suave para efectos */
+            opacity: 0;
+            animation: bounceIn .5s ease-out forwards;
+            animation-delay: 3.1s;
+        }
 
         @keyframes bounceIn {
             0% {
@@ -558,10 +471,13 @@ div .content{
     display: none;
   }
 
+  .contenedor-fijo{
+    position: relative;
+  }
 
   
   .container-eliminar-imprimir{
-    display: none;
+    margin: 0px;
   }
 
   .btn-danger{
@@ -570,10 +486,6 @@ div .content{
 
   .btn-warning{
     display: none;
-  }
-
-  .contenedor-fijo{
-    position: relative;
   }
 
 }
@@ -642,6 +554,10 @@ div .content{
     margin-bottom: 10px; /* Espacio entre los elementos */
 }
 
+#addBañoBtn{
+    padding: 15px;
+    z-index: 99999999999;
+}
 
 #totalPatentesYBaño{
     font-size: 25px;
@@ -660,34 +576,6 @@ button[disabled] {
 }
 
 
-/* espacio */
-
-.espacio{
-    width: 100%;
-    height: 60px;
-}
-
-.btn-light2{
-    color: #fff;
-    background: #007bff;
-    padding: 10px;
-}
-
-.price-info{
-    width: 30%;
-}
-
-.time-info{
-    width: 20%;
-}
-
-p {
-    width: 36%;
-}
-
-.parrafomodal{
-    width: 100%;
-}
 
     </style>
 </head>
@@ -697,12 +585,6 @@ p {
     <div class="search-container">
         <input type="text" id="searchInput" placeholder="Buscar patente..." oninput="buscarPatente()">
     </div>
-
-
-
-    <div class="espacio"></div><!-- espacio -->
-
-    
 
     <button id="addInputBtn" class="btn btn-success">Agregar Patente</button>
     
@@ -737,10 +619,9 @@ p {
      <div class="container-eliminar-imprimir">
          <button id="clearAllBtn" class="btn btn-danger">Eliminar Todo</button>
 
-    
-
          
    <!-- botn para imprimir ////////////////////////////////////////////////////////////77 -->
+
    <img 
    onclick="window.print()"
      src="impresora2.png" 
@@ -751,13 +632,12 @@ p {
      onmouseout="restaurarImagen()"
    >
 
-</div>
 
 
 <!-- Modal de confirmación -->
 <div id="confirmModal">
     <div class="modal-content">
-        <p class="parrafomodal">¿Ya enviaste el formulario por correo?</p>
+        <p>¿Ya enviaste el formulario por correo?</p>
         <div class="modal-buttons">
             <button onclick="eliminarContenido(true)">Sí</button>
             <button onclick="eliminarContenido(false)">No</button>
@@ -766,6 +646,8 @@ p {
 </div>
 
 
+    
+
     <!-- Contenedor Baño -->
     <div class="contenedor-fijo" id="bathContainer">
       
@@ -773,10 +655,10 @@ p {
           <span id="cantidadBaños">Cantidad: 0</span>
           <span id="precioBaños">total: $0</span>
       </div>
-      <button id="addBañoBtn" class="btn btn-light2">Agregar Baño</button>
+      <button id="addBañoBtn" class="btn btn-light">Agregar Baño</button>
     </div>
 
-
+     
 
     <script>
         let totalEfectivo = 0; // Variable para mantener el total en efectivo
@@ -792,7 +674,6 @@ p {
             const savedTotalPatentes = JSON.parse(localStorage.getItem('totalPatentes'));
             const savedCantidadBaños = JSON.parse(localStorage.getItem('cantidadBaños'));
             const savedPrecioBaños = JSON.parse(localStorage.getItem('precioBaños'));
-
 
             if (savedContent) {
                 savedContent.forEach(function(item) {
@@ -863,43 +744,30 @@ p {
             priceInfoDiv.textContent = price;
             contentDiv.appendChild(priceInfoDiv);
 
-           // Calcular y mostrar el Tiempo y precio
-           timeButton.addEventListener('click', function () {
-                    // Deshabilitar el botón de salida después de presionar
-                    timeButton.disabled = true;
+            // Función para mostrar el Tiempo y el precio
+            timeButton.addEventListener('click', function () {
+                const creationTime = new Date(contentDiv.dataset.creationTime);
+                const ahora = new Date();
 
-                    const creationTime = new Date(contentDiv.dataset.creationTime);
-                    const ahora = new Date();
+                // Calcular la diferencia en segundos
+                const diferenciaSegundos = Math.floor((ahora - creationTime) / 1000);
 
-             // Calcular la diferencia en segundos
-const diferenciaSegundos = Math.floor((ahora - creationTime) / 1000);
+                // Calcular la cantidad de minutos completos que han pasado
+                const diferenciaMinutos = Math.ceil(diferenciaSegundos / 60); 
 
-// Calcular la cantidad de minutos completos que han pasado
-const diferenciaMinutos = Math.ceil(diferenciaSegundos / 60);
+                // Primer precio de $200
+                let precio = 200;
 
-// Variable para el precio base
-let precio = 0;
-
-// Dependiendo de la cantidad de minutos transcurridos, asignar el precio correspondiente
-if (diferenciaMinutos <= 30) {
-    precio = 600; // $600 si es hasta 30 minutos
-} else if (diferenciaMinutos <= 60) {
-    precio = 1200; // $1200 si son más de 30 minutos, pero hasta 60 minutos
-} else if (diferenciaMinutos <= 90) {
-    precio = 1800; // $1800 si son más de 60 minutos, pero hasta 90 minutos
-} else {
-    // Si son más de 90 minutos, calculamos el precio adicional
-    precio = 1800 + Math.ceil((diferenciaMinutos - 90) / 30) * 600; // $600 por cada 30 minutos adicionales
-}
+                // Si han pasado minutos, cobramos $40 por cada minuto adicional
+                if (diferenciaMinutos > 0) {
+                    precio += diferenciaMinutos * 40; // Precio adicional por cada minuto
+                }
 
                 // Mostrar el Tiempo en el div correspondiente
-                timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} min.`;
+                timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} minutos.`;
 
                 // Mostrar el precio en el div correspondiente
                 priceInfoDiv.innerHTML = `Pagar: $${precio}`;
-
-                // Cambiar el color del contenedor a rojo claro cuando se presiona 'Salida'
-                contentDiv.style.backgroundColor = 'lightcoral'; // Rojo claro
 
                 // Crear los botones de Efectivo y Tarjeta al presionar el botón de Tiempo y precio
                 const efectivoBtn = document.createElement('button');
@@ -910,50 +778,27 @@ if (diferenciaMinutos <= 30) {
                 tarjetaBtn.classList.add('btn', 'btn-info');
                 tarjetaBtn.textContent = 'Tarjeta';
 
-                // Crear el botón "Lele" que suma $500 al precio
-                const leleBtn = document.createElement('button');
-leleBtn.classList.add('btn', 'btn-warning');
-leleBtn.textContent = 'baño';
-contentDiv.appendChild(leleBtn);
-
-// Agregar el evento para el botón "Lele" (clic)
-leleBtn.addEventListener('click', function () {
-    precio += 500; // Sumar $500 al precio
-    priceInfoDiv.innerHTML = `Pagar: $${precio}`; // Actualizar el precio
-});
-
-
                 // Añadir los botones a la div de contenido
                 contentDiv.appendChild(efectivoBtn);
                 contentDiv.appendChild(tarjetaBtn);
 
                 // Función para cambiar el color a verde claro (Efectivo)
                 efectivoBtn.addEventListener('click', function() {
-                        // Desactivar ambos botones después de presionar uno
-                        efectivoBtn.disabled = true;
-                        tarjetaBtn.disabled = true;
-                        leleBtn.disabled = true;  // Deshabilitar el botón Lele
-
-                        contentDiv.style.backgroundColor = 'lightgreen';
-                        totalEfectivo += precio; // Sumar el precio al total de efectivo
-                        document.getElementById('totalEfectivo').textContent = `Total Efectivo: $${totalEfectivo}`;
-                        updateTotalPatentes();  // Actualizar el total de Patentes
-                        saveContent();  // Guardar el estado con el color actualizado
-                    });
+                    contentDiv.style.backgroundColor = 'lightgreen';
+                    totalEfectivo += precio; // Sumar el precio al total de efectivo
+                    document.getElementById('totalEfectivo').textContent = `Total Efectivo: $${totalEfectivo}`;
+                    updateTotalPatentes();  // Actualizar el total de Patentes
+                    saveContent();  // Guardar el estado con el color actualizado
+                });
 
                 // Función para cambiar el color a azul claro (Tarjeta)
                 tarjetaBtn.addEventListener('click', function() {
-                        // Desactivar ambos botones después de presionar uno
-                        efectivoBtn.disabled = true;
-                        tarjetaBtn.disabled = true;
-                        leleBtn.disabled = true;  // Deshabilitar el botón Lele
-
-                        contentDiv.style.backgroundColor = 'lightblue';
-                        totalTarjetas += precio; // Sumar el precio al total de tarjetas
-                        document.getElementById('totalTarjetas').textContent = `Total Tarjetas: $${totalTarjetas}`;
-                        updateTotalPatentes();  // Actualizar el total de Patentes
-                        saveContent();  // Guardar el estado con el color actualizado
-                    });
+                    contentDiv.style.backgroundColor = 'lightblue';
+                    totalTarjetas += precio; // Sumar el precio al total de tarjetas
+                    document.getElementById('totalTarjetas').textContent = `Total Tarjetas: $${totalTarjetas}`;
+                    updateTotalPatentes();  // Actualizar el total de Patentes
+                    saveContent();  // Guardar el estado con el color actualizado
+                });
 
                 // Guardar el contenido actualizado después de calcular el Tiempo
                 saveContent();
@@ -1081,35 +926,25 @@ leleBtn.addEventListener('click', function () {
                     const creationTime = new Date(contentDiv.dataset.creationTime);
                     const ahora = new Date();
 
-                // Calcular la diferencia en segundos
-const diferenciaSegundos = Math.floor((ahora - creationTime) / 1000);
+                    // Calcular la diferencia en segundos
+                    const diferenciaSegundos = Math.floor((ahora - creationTime) / 1000);
 
-// Calcular la cantidad de minutos completos que han pasado
-const diferenciaMinutos = Math.ceil(diferenciaSegundos / 60);
+                    // Calcular la cantidad de minutos completos que han pasado
+                    const diferenciaMinutos = Math.ceil(diferenciaSegundos / 60); 
 
-// Variable para el precio base
-let precio = 0;
+                    // Primer precio de $200
+                    let precio = 200;
 
-// Dependiendo de la cantidad de minutos transcurridos, asignar el precio correspondiente
-if (diferenciaMinutos <= 30) {
-    precio = 600; // $600 si es hasta 30 minutos
-} else if (diferenciaMinutos <= 60) {
-    precio = 1200; // $1200 si son más de 30 minutos, pero hasta 60 minutos
-} else if (diferenciaMinutos <= 90) {
-    precio = 1800; // $1800 si son más de 60 minutos, pero hasta 90 minutos
-} else {
-    // Si son más de 90 minutos, calculamos el precio adicional
-    precio = 1800 + Math.ceil((diferenciaMinutos - 90) / 30) * 600; // $600 por cada 30 minutos adicionales
-}
+                    // Si han pasado minutos, cobramos $40 por cada minuto adicional
+                    if (diferenciaMinutos > 0) {
+                        precio += diferenciaMinutos * 40; // Precio adicional por cada minuto
+                    }
 
                     // Mostrar el Tiempo en el div correspondiente
-                    timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} min.`;
+                    timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} minutos.`;
 
                     // Mostrar el precio en el div correspondiente
                     priceInfoDiv.innerHTML = `Pagar: $${precio}`;
-
-                    // Cambiar el color del contenedor a rojo claro cuando se presiona 'Salida'
-                    contentDiv.style.backgroundColor = 'lightcoral'; // Rojo claro
 
                     // Crear los botones de Efectivo y Tarjeta al presionar el botón de Tiempo y precio
                     const efectivoBtn = document.createElement('button');
@@ -1225,9 +1060,6 @@ function eliminarContenido(confirmado) {
 
         // Recargar la página
         location.reload();
-
-         // Desplazar hacia la parte superior de la página después de la recarga
-         window.scrollTo(0, 0);
     }
 
     // Cerrar el modal sin hacer nada si la respuesta es "No"
@@ -1293,9 +1125,9 @@ function buscarPatente() {
     function restaurarImagen() {
     document.getElementById('imagen-logo').src = 'impresora2.png'; // Restaura la imagen original
   }
-
-  
     </script>
-
 </body>
 </html>
+
+
+
