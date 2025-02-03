@@ -755,16 +755,17 @@ button[disabled] {
                 // Calcular la cantidad de minutos completos que han pasado
                 const diferenciaMinutos = Math.ceil(diferenciaSegundos / 60); 
 
-                // Primer precio de $200
-                let precio = 200;
+// Inicializar el precio
+let precio = 200;
 
-                // Si han pasado minutos, cobramos $40 por cada minuto adicional
-                if (diferenciaMinutos > 0) {
-                    precio += diferenciaMinutos * 40; // Precio adicional por cada minuto
-                }
+// Si han pasado más de 5 minutos, cobramos $40 por cada minuto adicional
+if (diferenciaMinutos > 5) {
+    const minutosAdicionales = diferenciaMinutos - 5;
+    precio += minutosAdicionales * 40; // Precio adicional por cada minuto adicional
+}
 
-                // Mostrar el Tiempo en el div correspondiente
-                timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} minutos.`;
+// Mostrar el Tiempo en el div correspondiente
+timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} minutos. Precio: ${precio} pesos.`;
 
                 // Mostrar el precio en el div correspondiente
                 priceInfoDiv.innerHTML = `Pagar: $${precio}`;
@@ -923,25 +924,27 @@ button[disabled] {
                     // Deshabilitar el botón de salida después de presionar
                     timeButton.disabled = true;
 
-                    const creationTime = new Date(contentDiv.dataset.creationTime);
-                    const ahora = new Date();
+                    const creationTime = new Date(contentDiv.dataset.creationTime); 
+const ahora = new Date();
 
-                    // Calcular la diferencia en segundos
-                    const diferenciaSegundos = Math.floor((ahora - creationTime) / 1000);
+// Calcular la diferencia en segundos
+const diferenciaSegundos = Math.floor((ahora - creationTime) / 1000);
 
-                    // Calcular la cantidad de minutos completos que han pasado
-                    const diferenciaMinutos = Math.ceil(diferenciaSegundos / 60); 
+// Calcular la cantidad de minutos completos que han pasado
+const diferenciaMinutos = Math.ceil(diferenciaSegundos / 60); 
 
-                    // Primer precio de $200
-                    let precio = 200;
+// Inicializar el precio
+let precio = 200;
 
-                    // Si han pasado minutos, cobramos $40 por cada minuto adicional
-                    if (diferenciaMinutos > 0) {
-                        precio += diferenciaMinutos * 40; // Precio adicional por cada minuto
-                    }
+// Si han pasado más de 5 minutos, cobramos $40 por cada minuto adicional
+if (diferenciaMinutos > 5) {
+    const minutosAdicionales = diferenciaMinutos - 5;
+    precio += minutosAdicionales * 40; // Precio adicional por cada minuto adicional
+}
 
-                    // Mostrar el Tiempo en el div correspondiente
-                    timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} minutos.`;
+// Mostrar el Tiempo en el div correspondiente
+timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} minutos. Precio: ${precio} pesos.`;
+
 
                     // Mostrar el precio en el div correspondiente
                     priceInfoDiv.innerHTML = `Pagar: $${precio}`;
