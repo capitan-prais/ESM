@@ -874,9 +874,9 @@ timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} minutos. Precio: ${precio}
     setTimeout(function() {
         input.focus();  // Esto debería asegurar que el input se enfoque correctamente
 
-        // Asegurarse de que el input sea visible sin desplazar la página
-        input.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 0);  // Ejecutarlo después de que el DOM haya procesado el cambio
+    // Mover el enfoque 100px más abajo
+    window.scrollBy(0, 200); // Desplazar la página 100px hacia abajo
+}, 0);  // Ejecutarlo después de que el DOM haya procesado el cambio
 
     input.addEventListener('keydown', function (event) {
         if (event.key === 'Enter') {
