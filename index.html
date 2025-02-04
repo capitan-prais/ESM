@@ -362,7 +362,6 @@ img#logo{
     z-index: 2;         /* Alineado con la parte izquierda de la página */
     width: 300px;         /* Puedes ajustar el tamaño */
     height: 80px;       /* Z-index alto para que quede encima de todo */
-    pointer-events: none; /* Hace que la imagen no interfiera con la interacción con otros elementos */
     opacity: 0;
     transition: all 0.3s ease;
     animation: moveleft 3s ease-in-out forwards;
@@ -592,7 +591,7 @@ button[disabled] {
         
         <!-- logo /////////////////////-->
         
-        <img id="logo" src="camaro.png" alt="Logo"> 
+        <img id="logo" src="camaro.png" alt="Logo" onclick="toggleFullScreen()"> 
         <img id="logo2" src="hoja con titulo.jpg" alt="Logo">
        
         
@@ -605,9 +604,7 @@ button[disabled] {
         
         <!-- Total Tarjetas Display -->
         <div id="totalTarjetas">Total Tarjetas: $0</div>
-        
-        <!-- Total Patentes Display (Suma de Efectivo y Tarjetas) -->
-        <div id="totalPatentes">Total Patentes: $0</div>
+
         
         <!-- Total Patentes + Baño -->
         <div id="totalPatentesYBaño">Total Patentes y Baño: $0</div>
@@ -671,7 +668,6 @@ button[disabled] {
             const savedContent = JSON.parse(localStorage.getItem('contentList'));
             const savedTotalEfectivo = JSON.parse(localStorage.getItem('totalEfectivo'));
             const savedTotalTarjetas = JSON.parse(localStorage.getItem('totalTarjetas'));
-            const savedTotalPatentes = JSON.parse(localStorage.getItem('totalPatentes'));
             const savedCantidadBaños = JSON.parse(localStorage.getItem('cantidadBaños'));
             const savedPrecioBaños = JSON.parse(localStorage.getItem('precioBaños'));
 
@@ -689,11 +685,6 @@ button[disabled] {
             if (savedTotalTarjetas !== null) {
                 totalTarjetas = savedTotalTarjetas;
                 document.getElementById('totalTarjetas').textContent = `Total Tarjetas: $${totalTarjetas}`;
-            }
-
-            if (savedTotalPatentes !== null) {
-                const totalPatentes = savedTotalPatentes;
-                document.getElementById('totalPatentes').textContent = `Total Patentes: $${totalPatentes}`;
             }
             if (savedCantidadBaños !== null) {
                 cantidadBaños = savedCantidadBaños;
@@ -767,8 +758,7 @@ if (diferenciaMinutos > 5) {
 // Mostrar el Tiempo en el div correspondiente
 timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} minutos. Precio: ${precio} pesos.`;
 
-                // Mostrar el precio en el div correspondiente
-                priceInfoDiv.innerHTML = `Pagar: $${precio}`;
+            
 
                 // Crear los botones de Efectivo y Tarjeta al presionar el botón de Tiempo y precio
                 const efectivoBtn = document.createElement('button');
@@ -817,14 +807,7 @@ timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} minutos. Precio: ${precio}
             localStorage.setItem('totalPatentesYBaño', JSON.stringify(totalPatentesYBaño));
         }
 
-        // Función para actualizar el total Patentes (suma de totalEfectivo + totalTarjetas)
-        function updateTotalPatentes() {
-            const totalPatentes = totalEfectivo + totalTarjetas;
-            document.getElementById('totalPatentes').textContent = `Total Patentes: $${totalPatentes}`;
-            // Guardar el total de Patentes en el localStorage
-            localStorage.setItem('totalPatentes', JSON.stringify(totalPatentes));
-            updateTotalPatentesYBaño(); // Actualizar el total combinado cuando cambia el total de Patentes
-        }
+
 
         // Función para guardar el contenido en el localStorage
         function saveContent() {
@@ -875,9 +858,11 @@ timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} minutos. Precio: ${precio}
     setTimeout(function() {
         input.focus();  // Esto debería asegurar que el input se enfoque correctamente
 
-        // Asegurarse de que el input sea visible sin desplazar la página
-        input.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 0);  // Ejecutarlo después de que el DOM haya procesado el cambio
+    // Mover el enfoque 100px más abajo
+    window.scrollBy(0, 200); // Desplazar la página 100px hacia abajo
+}, 0);  // Ejecutarlo después de que el DOM haya procesado el cambio
+
+        
 
     input.addEventListener('keydown', function (event) {
         if (event.key === 'Enter') {
@@ -946,8 +931,7 @@ if (diferenciaMinutos > 5) {
 timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} minutos. Precio: ${precio} pesos.`;
 
 
-                    // Mostrar el precio en el div correspondiente
-                    priceInfoDiv.innerHTML = `Pagar: $${precio}`;
+                
 
                     // Crear los botones de Efectivo y Tarjeta al presionar el botón de Tiempo y precio
                     const efectivoBtn = document.createElement('button');
@@ -1075,8 +1059,17 @@ document.getElementById('clearAllBtn').addEventListener('click', mostrarModal);
 
 
 
-// funciones para el buscador////////////////////////////////////////////////////////////////////////
+// Función para hacer el scroll al enfocarse en el campo de búsqueda
+function enfoqueBuscador() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });  // Realiza el scroll hacia la parte superior de la página
+}
 
+// Función para hacer el scroll al enfocarse en el campo de búsqueda
+function enfoqueBuscador() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });  // Realiza el scroll hacia la parte superior de la página
+}
+
+// Función para buscar la patente
 function buscarPatente() {
     const searchValue = document.getElementById('searchInput').value.toUpperCase();
     const contentContainers = document.querySelectorAll('.content');  // Seleccionamos los contenedores con la clase 'content'
@@ -1091,6 +1084,29 @@ function buscarPatente() {
         }
     });
 }
+
+// Función para gestionar el enfoque y el desplazamiento hacia arriba
+let isFocused = false;
+
+function manejarEnfoque() {
+    const searchInput = document.getElementById('searchInput');
+    
+    if (!isFocused) {
+        enfoqueBuscador();  // Realiza el scroll solo si no estaba enfocado previamente
+        isFocused = true;
+    } else {
+        // Si ya está enfocado y se hace clic de nuevo, hace scroll hacia arriba
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+// Añadir el evento de enfoque al campo de búsqueda
+document.getElementById('searchInput').addEventListener('focus', manejarEnfoque);
+
+// Añadir el evento de clic al campo de búsqueda (para hacer scroll hacia arriba si ya está enfocado)
+document.getElementById('searchInput').addEventListener('click', manejarEnfoque);
+
+
 
 
 
@@ -1128,6 +1144,35 @@ function buscarPatente() {
     function restaurarImagen() {
     document.getElementById('imagen-logo').src = 'impresora2.png'; // Restaura la imagen original
   }
+
+
+   // Función para activar y desactivar pantalla completa
+   function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                // Activar pantalla completa
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+                    document.documentElement.mozRequestFullScreen();
+                } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari y Opera
+                    document.documentElement.webkitRequestFullscreen();
+                } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+                    document.documentElement.msRequestFullscreen();
+                }
+            } else {
+                // Salir de pantalla completa
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) { // Firefox
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) { // Chrome, Safari y Opera
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { // IE/Edge
+                    document.msExitFullscreen();
+                }
+            }
+        }
+
     </script>
 </body>
 </html>
