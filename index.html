@@ -604,7 +604,9 @@ button[disabled] {
         
         <!-- Total Tarjetas Display -->
         <div id="totalTarjetas">Total Tarjetas: $0</div>
-
+        
+        <!-- Total Patentes Display (Suma de Efectivo y Tarjetas) -->
+        <div id="totalPatentes">Total Patentes: $0</div>
         
         <!-- Total Patentes + Baño -->
         <div id="totalPatentesYBaño">Total Patentes y Baño: $0</div>
@@ -668,6 +670,7 @@ button[disabled] {
             const savedContent = JSON.parse(localStorage.getItem('contentList'));
             const savedTotalEfectivo = JSON.parse(localStorage.getItem('totalEfectivo'));
             const savedTotalTarjetas = JSON.parse(localStorage.getItem('totalTarjetas'));
+            const savedTotalPatentes = JSON.parse(localStorage.getItem('totalPatentes'));
             const savedCantidadBaños = JSON.parse(localStorage.getItem('cantidadBaños'));
             const savedPrecioBaños = JSON.parse(localStorage.getItem('precioBaños'));
 
@@ -685,6 +688,11 @@ button[disabled] {
             if (savedTotalTarjetas !== null) {
                 totalTarjetas = savedTotalTarjetas;
                 document.getElementById('totalTarjetas').textContent = `Total Tarjetas: $${totalTarjetas}`;
+            }
+
+            if (savedTotalPatentes !== null) {
+                const totalPatentes = savedTotalPatentes;
+                document.getElementById('totalPatentes').textContent = `Total Patentes: $${totalPatentes}`;
             }
             if (savedCantidadBaños !== null) {
                 cantidadBaños = savedCantidadBaños;
@@ -740,25 +748,26 @@ button[disabled] {
                 const creationTime = new Date(contentDiv.dataset.creationTime);
                 const ahora = new Date();
 
-                // Calcular la diferencia en segundos
-                const diferenciaSegundos = Math.floor((ahora - creationTime) / 1000);
+                 // Calcular la diferencia en segundos
+                 const diferenciaSegundos = Math.floor((ahora - creationTime) / 1000);
 
-                // Calcular la cantidad de minutos completos que han pasado
-                const diferenciaMinutos = Math.ceil(diferenciaSegundos / 60); 
+// Calcular la cantidad de minutos completos que han pasado
+const diferenciaMinutos = Math.ceil(diferenciaSegundos / 60); 
 
 // Inicializar el precio
 let precio = 200;
 
 // Si han pasado más de 5 minutos, cobramos $40 por cada minuto adicional
 if (diferenciaMinutos > 5) {
-    const minutosAdicionales = diferenciaMinutos - 5;
-    precio += minutosAdicionales * 40; // Precio adicional por cada minuto adicional
+const minutosAdicionales = diferenciaMinutos - 5;
+precio += minutosAdicionales * 40; // Precio adicional por cada minuto adicional
 }
 
 // Mostrar el Tiempo en el div correspondiente
 timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} minutos. Precio: ${precio} pesos.`;
 
-            
+                // Mostrar el precio en el div correspondiente
+                priceInfoDiv.innerHTML = `Pagar: $${precio}`;
 
                 // Crear los botones de Efectivo y Tarjeta al presionar el botón de Tiempo y precio
                 const efectivoBtn = document.createElement('button');
@@ -807,7 +816,14 @@ timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} minutos. Precio: ${precio}
             localStorage.setItem('totalPatentesYBaño', JSON.stringify(totalPatentesYBaño));
         }
 
-
+        // Función para actualizar el total Patentes (suma de totalEfectivo + totalTarjetas)
+        function updateTotalPatentes() {
+            const totalPatentes = totalEfectivo + totalTarjetas;
+            document.getElementById('totalPatentes').textContent = `Total Patentes: $${totalPatentes}`;
+            // Guardar el total de Patentes en el localStorage
+            localStorage.setItem('totalPatentes', JSON.stringify(totalPatentes));
+            updateTotalPatentesYBaño(); // Actualizar el total combinado cuando cambia el total de Patentes
+        }
 
         // Función para guardar el contenido en el localStorage
         function saveContent() {
@@ -858,11 +874,9 @@ timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} minutos. Precio: ${precio}
     setTimeout(function() {
         input.focus();  // Esto debería asegurar que el input se enfoque correctamente
 
-    // Mover el enfoque 100px más abajo
-    window.scrollBy(0, 200); // Desplazar la página 100px hacia abajo
-}, 0);  // Ejecutarlo después de que el DOM haya procesado el cambio
-
-        
+        // Asegurarse de que el input sea visible sin desplazar la página
+        input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 0);  // Ejecutarlo después de que el DOM haya procesado el cambio
 
     input.addEventListener('keydown', function (event) {
         if (event.key === 'Enter') {
@@ -909,8 +923,8 @@ timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} minutos. Precio: ${precio}
                     // Deshabilitar el botón de salida después de presionar
                     timeButton.disabled = true;
 
-                    const creationTime = new Date(contentDiv.dataset.creationTime); 
-const ahora = new Date();
+                    const creationTime = new Date(contentDiv.dataset.creationTime);
+                    const ahora = new Date();
 
 // Calcular la diferencia en segundos
 const diferenciaSegundos = Math.floor((ahora - creationTime) / 1000);
@@ -930,8 +944,8 @@ if (diferenciaMinutos > 5) {
 // Mostrar el Tiempo en el div correspondiente
 timeInfoDiv.innerHTML = `Tiempo: ${diferenciaMinutos} minutos. Precio: ${precio} pesos.`;
 
-
-                
+                    // Mostrar el precio en el div correspondiente
+                    priceInfoDiv.innerHTML = `Pagar: $${precio}`;
 
                     // Crear los botones de Efectivo y Tarjeta al presionar el botón de Tiempo y precio
                     const efectivoBtn = document.createElement('button');
@@ -1058,7 +1072,6 @@ document.getElementById('clearAllBtn').addEventListener('click', mostrarModal);
 
 
 
-
 // Función para hacer el scroll al enfocarse en el campo de búsqueda
 function enfoqueBuscador() {
     window.scrollTo({ top: 0, behavior: 'smooth' });  // Realiza el scroll hacia la parte superior de la página
@@ -1110,8 +1123,6 @@ document.getElementById('searchInput').addEventListener('click', manejarEnfoque)
 
 
 
-
-
         // Función para agregar un baño
         document.getElementById('addBañoBtn').addEventListener('click', function () {
             cantidadBaños += 1;
@@ -1146,8 +1157,9 @@ document.getElementById('searchInput').addEventListener('click', manejarEnfoque)
   }
 
 
-   // Función para activar y desactivar pantalla completa
-   function toggleFullScreen() {
+
+     // Función para activar y desactivar pantalla completa
+     function toggleFullScreen() {
             if (!document.fullscreenElement) {
                 // Activar pantalla completa
                 if (document.documentElement.requestFullscreen) {
@@ -1172,10 +1184,6 @@ document.getElementById('searchInput').addEventListener('click', manejarEnfoque)
                 }
             }
         }
-
     </script>
 </body>
 </html>
-
-
-
