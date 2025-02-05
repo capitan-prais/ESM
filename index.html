@@ -1184,6 +1184,28 @@ document.getElementById('searchInput').addEventListener('click', manejarEnfoque)
                 }
             }
         }
+
+
+        // ajusta la posicion del contenedor del baño al escribir en movil
+       // Función para detectar la apertura del teclado en móviles
+function detectarTeclado() {
+    let input = document.getElementById('searchInput');
+
+    // Escuchar el evento de enfoque en el campo de búsqueda
+    input.addEventListener('focus', function() {
+        // Cuando el teclado se abre, ajustamos la posición del contenedor del baño
+        document.getElementById('bathContainer').style.bottom = '0px';  // Mueve el contenedor hacia arriba (ajusta según necesites)
+    });
+
+    // Escuchar el evento de perder el enfoque (cuando el teclado se cierra)
+    input.addEventListener('blur', function() {
+        // Cuando el teclado se cierra, restauramos la posición del contenedor
+        document.getElementById('bathContainer').style.bottom = '0';
+    });
+}
+
+
+
     </script>
 </body>
 </html>
